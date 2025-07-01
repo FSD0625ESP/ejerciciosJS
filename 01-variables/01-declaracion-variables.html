@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 1: Declaración de Variables</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      header {
+        background-color: #000;
+        padding: 20px;
+      }
+
+      header img {
+        width: 150px;
+      }
+      h1 {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+      pre {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        padding: 15px;
+        overflow: auto;
+      }
+      code {
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+      .test-results {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .test-pass {
+        color: #28a745;
+      }
+      .test-fail {
+        color: #dc3545;
+      }
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      textarea {
+        width: 100%;
+        height: 150px;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img
+        src="https://nuclio.school/wp-content/uploads/2022/12/NDS_Negative.webp"
+        alt="Nuclio Digital School"
+      />
+    </header>
+    <div style="text-align: right; margin-bottom: 20px">
+      <a href="../index.html" style="color: #3498db; text-decoration: none">
+        <span style="font-size: 14px">&#8592; Volver al índice</span>
+      </a>
+    </div>
+    <h1>Ejercicio 1: Declaración de Variables</h1>
+
+    <h2>Enunciado</h2>
+    <p>
+      En este ejercicio, deberás declarar variables utilizando las palabras
+      clave <code>var</code>, <code>let</code> y <code>const</code>.
+    </p>
+
+    <h3>Instrucciones:</h3>
+    <ol>
+      <li>
+        Declara una variable llamada <code>nombre</code> usando
+        <code>let</code> y asígnale tu nombre como valor.
+      </li>
+      <li>
+        Declara una variable llamada <code>edad</code> usando <code>let</code> y
+        asígnale tu edad como valor.
+      </li>
+      <li>
+        Declara una constante llamada <code>PI</code> y asígnale el valor de Pi
+        (3.14159).
+      </li>
+      <li>
+        Declara una variable llamada <code>puedeVotar</code> usando
+        <code>let</code> y asígnale un valor booleano (<code>true</code> o
+        <code>false</code>) según si tu edad es mayor o igual a 18.
+      </li>
+    </ol>
+
+    <h2>Tu código</h2>
+    <textarea id="codigo" placeholder="// Escribe tu código aquí">
+// Escribe tu código debajo de esta línea
+// INICIO
+
+// Tu código aquí
+
+// FIN</textarea
+    >
+    <button onclick="ejecutarPruebas()">Ejecutar pruebas</button>
+
+    <div class="test-results" id="resultados">
+      <p>Los resultados de las pruebas aparecerán aquí.</p>
+    </div>
+
+    <script>
+      function ejecutarPruebas() {
+        // Limpiar resultados anteriores
+        const resultadosDiv = document.getElementById("resultados");
+        resultadosDiv.innerHTML = "";
+
+        // Obtener el código del usuario
+        const codigo = document.getElementById("codigo").value;
+
+        // Crear un entorno aislado para ejecutar el código
+        const entorno = {};
+
+        try {
+          // Enfoque alternativo para ejecutar el código del usuario
+          const lines = codigo
+            .split("\n")
+            .filter(
+              (line) =>
+                line.trim() &&
+                !line.trim().startsWith("//") &&
+                line.trim() !== "// INICIO" &&
+                line.trim() !== "// FIN"
+            );
+
+          // Primer paso: procesar todas las declaraciones simples (sin dependencias)
+          for (const line of lines) {
+            if (
+              line.includes("let") ||
+              line.includes("const") ||
+              line.includes("var")
+            ) {
+              const match = line.match(/(let|const|var)\s+(\w+)\s*=\s*([^;]+)/);
+              if (match) {
+                const [, declarationType, varName, value] = match;
+
+                // Si el valor no contiene referencias a otras variables, evaluarlo directamente
+                if (!value.match(/\b(nombre|edad|PI|puedeVotar)\b/)) {
+                  try {
+                    entorno[varName] = eval(value);
+                  } catch (error) {
+                    console.error(
+                      `Error evaluando ${varName}: ${error.message}`
+                    );
+                  }
+                }
+              }
+            }
+          }
+
+          // Segundo paso: procesar declaraciones con dependencias
+          for (const line of lines) {
+            if (
+              line.includes("let") ||
+              line.includes("const") ||
+              line.includes("var")
+            ) {
+              const match = line.match(/(let|const|var)\s+(\w+)\s*=\s*([^;]+)/);
+              if (match) {
+                const [, declarationType, varName, value] = match;
+
+                // Si el valor contiene referencias a otras variables o no se procesó antes
+                if (!entorno.hasOwnProperty(varName)) {
+                  try {
+                    // Reemplazar referencias a variables con sus valores del entorno
+                    let evaluableValue = value;
+                    for (const [key, val] of Object.entries(entorno)) {
+                      if (typeof val === "string") {
+                        evaluableValue = evaluableValue.replace(
+                          new RegExp(`\\b${key}\\b`, "g"),
+                          `"${val}"`
+                        );
+                      } else {
+                        evaluableValue = evaluableValue.replace(
+                          new RegExp(`\\b${key}\\b`, "g"),
+                          val
+                        );
+                      }
+                    }
+                    entorno[varName] = eval(evaluableValue);
+                  } catch (error) {
+                    console.error(
+                      `Error evaluando ${varName}: ${error.message}`
+                    );
+                  }
+                }
+              }
+            }
+          }
+
+          // Pruebas
+
+          const pruebas = [
+            {
+              nombre: "La variable 'nombre' está definida y es de tipo string",
+              prueba: () => typeof entorno.nombre === "string",
+            },
+            {
+              nombre: "La variable 'edad' está definida y es de tipo number",
+              prueba: () => typeof entorno.edad === "number",
+            },
+            {
+              nombre: "La constante 'PI' está definida con el valor correcto",
+              prueba: () => {
+                // Verificar el valor
+                const valorCorrecto = entorno.PI === 3.14159;
+
+                // Verificar si fue declarado como constante
+                const codigoUsuario = document.getElementById("codigo").value;
+                const esConstante = /const\s+PI\s*=/.test(codigoUsuario);
+
+                return valorCorrecto && esConstante;
+              },
+            },
+            {
+              nombre:
+                "La variable 'puedeVotar' está definida y es de tipo boolean",
+              prueba: () => {
+                return (
+                  typeof entorno.puedeVotar === "boolean" &&
+                  ((entorno.edad >= 18 && entorno.puedeVotar === true) ||
+                    (entorno.edad < 18 && entorno.puedeVotar === false))
+                );
+              },
+            },
+          ];
+
+          // Ejecutar pruebas
+          let todasPasaron = true;
+          pruebas.forEach((prueba) => {
+            let resultado;
+            try {
+              resultado = prueba.prueba();
+            } catch (error) {
+              resultado = false;
+            }
+
+            const elementoPrueba = document.createElement("p");
+            elementoPrueba.className = resultado ? "test-pass" : "test-fail";
+            elementoPrueba.textContent = `${resultado ? "✓" : "✗"} ${
+              prueba.nombre
+            }`;
+            resultadosDiv.appendChild(elementoPrueba);
+
+            if (!resultado) todasPasaron = false;
+          });
+
+          // Mensaje final
+          const mensajeFinal = document.createElement("p");
+          mensajeFinal.style.fontWeight = "bold";
+          mensajeFinal.style.marginTop = "15px";
+          if (todasPasaron) {
+            mensajeFinal.className = "test-pass";
+            mensajeFinal.textContent =
+              "¡Felicidades! Has completado correctamente el ejercicio.";
+
+            // Notificar al índice que este ejercicio se ha completado
+            try {
+              window.parent.postMessage(
+                {
+                  tipo: "ejercicioCompletado",
+                  ejercicioId: "01-variables/01-declaracion-variables",
+                },
+                "*"
+              );
+              // También guardar en localStorage como respaldo
+              localStorage.setItem(
+                "ejercicio_01-variables/01-declaracion-variables",
+                "completado"
+              );
+            } catch (e) {
+              console.log("No se pudo notificar al índice", e);
+            }
+          } else {
+            mensajeFinal.className = "test-fail";
+            mensajeFinal.textContent =
+              "Hay errores en tu solución. Revisa las pruebas fallidas e intenta de nuevo.";
+
+            // Añadir botón para mostrar la solución
+            const botonSolucion = document.createElement("button");
+            botonSolucion.textContent = "Ver solución";
+            botonSolucion.style.marginTop = "15px";
+            botonSolucion.style.backgroundColor = "#6c757d";
+            botonSolucion.onclick = mostrarSolucion;
+            resultadosDiv.appendChild(botonSolucion);
+          }
+          resultadosDiv.appendChild(mensajeFinal);
+        } catch (error) {
+          // Mostrar error de sintaxis
+          const errorElement = document.createElement("p");
+          errorElement.className = "test-fail";
+          errorElement.textContent = `Error: ${error.message}`;
+          resultadosDiv.appendChild(errorElement);
+
+          // Añadir botón para mostrar la solución en caso de error
+          const botonSolucion = document.createElement("button");
+          botonSolucion.textContent = "Ver solución";
+          botonSolucion.style.marginTop = "15px";
+          botonSolucion.style.backgroundColor = "#6c757d";
+          botonSolucion.onclick = mostrarSolucion;
+          resultadosDiv.appendChild(botonSolucion);
+        }
+      }
+
+      // Función para mostrar la solución
+      function mostrarSolucion() {
+        const resultadosDiv = document.getElementById("resultados");
+
+        // Crear contenedor para la solución
+        const solucionDiv = document.createElement("div");
+        solucionDiv.style.marginTop = "20px";
+        solucionDiv.style.padding = "15px";
+        solucionDiv.style.backgroundColor = "#f8f9fa";
+        solucionDiv.style.border = "1px solid #e9ecef";
+        solucionDiv.style.borderRadius = "4px";
+
+        // Título de la solución
+        const tituloSolucion = document.createElement("h3");
+        tituloSolucion.textContent = "Solución propuesta";
+        solucionDiv.appendChild(tituloSolucion);
+
+        // Código de la solución
+        const codigoSolucion = document.createElement("pre");
+        codigoSolucion.style.backgroundColor = "#f1f1f1";
+        codigoSolucion.style.padding = "10px";
+        codigoSolucion.style.borderRadius = "4px";
+        codigoSolucion.style.overflow = "auto";
+
+        const codigo = document.createElement("code");
+        codigo.textContent = `// Declaración de variables
+let nombre = "Juan"; // Puedes usar tu nombre real
+let edad = 25; // Puedes usar tu edad real
+
+// Declaración de constante
+const PI = 3.14159;
+
+// Variable booleana que depende de otra variable
+let puedeVotar = edad >= 18;`;
+
+        codigoSolucion.appendChild(codigo);
+        solucionDiv.appendChild(codigoSolucion);
+
+        // Explicación de la solución
+        const explicacionTitulo = document.createElement("h3");
+        explicacionTitulo.textContent = "Explicación";
+        solucionDiv.appendChild(explicacionTitulo);
+
+        const explicacion = document.createElement("ul");
+
+        const punto1 = document.createElement("li");
+        punto1.innerHTML =
+          "Usamos <code>let</code> para declarar la variable <code>nombre</code> con un valor de tipo string.";
+        explicacion.appendChild(punto1);
+
+        const punto2 = document.createElement("li");
+        punto2.innerHTML =
+          "Usamos <code>let</code> para declarar la variable <code>edad</code> con un valor de tipo number.";
+        explicacion.appendChild(punto2);
+
+        const punto3 = document.createElement("li");
+        punto3.innerHTML =
+          "Usamos <code>const</code> para declarar la constante <code>PI</code> con el valor 3.14159, ya que este valor no debe cambiar.";
+        explicacion.appendChild(punto3);
+
+        const punto4 = document.createElement("li");
+        punto4.innerHTML =
+          "Usamos <code>let</code> para declarar la variable <code>puedeVotar</code> y le asignamos el resultado de la expresión <code>edad >= 18</code>, que devuelve un valor booleano (true o false).";
+        explicacion.appendChild(punto4);
+
+        solucionDiv.appendChild(explicacion);
+
+        // Botón para aplicar la solución
+        const botonAplicar = document.createElement("button");
+        botonAplicar.textContent = "Aplicar esta solución";
+        botonAplicar.style.marginTop = "15px";
+        botonAplicar.onclick = function () {
+          document.getElementById("codigo").value = codigo.textContent;
+          solucionDiv.remove();
+          ejecutarPruebas();
+        };
+        solucionDiv.appendChild(botonAplicar);
+
+        resultadosDiv.appendChild(solucionDiv);
+      }
+    </script>
+  </body>
+</html>

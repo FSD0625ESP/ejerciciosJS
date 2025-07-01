@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 1: Bucles For</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      header {
+        background-color: #000;
+        padding: 20px;
+      }
+
+      header img {
+        width: 150px;
+      }
+      h1 {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+      pre {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        padding: 15px;
+        overflow: auto;
+      }
+      code {
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+      .test-results {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .test-pass {
+        color: #28a745;
+      }
+      .test-fail {
+        color: #dc3545;
+      }
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      textarea {
+        width: 100%;
+        height: 200px;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img
+        src="https://nuclio.school/wp-content/uploads/2022/12/NDS_Negative.webp"
+        alt="Nuclio Digital School"
+      />
+    </header>
+    <div style="text-align: right; margin-bottom: 20px">
+      <a href="../index.html" style="color: #3498db; text-decoration: none">
+        <span style="font-size: 14px">&#8592; Volver al índice</span>
+      </a>
+    </div>
+    <h1>Ejercicio 1: Bucles For</h1>
+
+    <h2>Enunciado</h2>
+    <p>
+      En este ejercicio, practicarás el uso de bucles <code>for</code> para
+      repetir operaciones y procesar datos de manera eficiente.
+    </p>
+
+    <h3>Instrucciones:</h3>
+    <ol>
+      <li>
+        Crea una función llamada <code>sumarNumeros</code> que reciba un número
+        entero positivo <code>n</code> como parámetro y devuelva la suma de
+        todos los números desde 1 hasta <code>n</code> (inclusive).
+      </li>
+      <li>
+        Crea una función llamada <code>contarPares</code> que reciba un array de
+        números y devuelva la cantidad de números pares que contiene.
+      </li>
+      <li>
+        Crea una función llamada <code>multiplicarArray</code> que reciba un
+        array de números y un multiplicador, y devuelva un nuevo array donde
+        cada elemento sea el resultado de multiplicar el elemento original por
+        el multiplicador.
+      </li>
+      <li>
+        Crea una función llamada <code>crearPatron</code> que reciba un número
+        <code>n</code> y devuelva una cadena de texto con el siguiente patrón
+        (para n=5):
+        <pre>
+*
+**
+***
+****
+*****</pre
+        >
+      </li>
+    </ol>
+
+    <h2>Tu código</h2>
+    <textarea id="codigo" placeholder="// Escribe tu código aquí">
+// Escribe tu código debajo de esta línea
+// INICIO
+
+// Tu código aquí
+
+// FIN</textarea
+    >
+    <button onclick="ejecutarPruebas()">Ejecutar pruebas</button>
+
+    <div class="test-results" id="resultados">
+      <p>Los resultados de las pruebas aparecerán aquí.</p>
+    </div>
+
+    <script>
+      function ejecutarPruebas() {
+        // Limpiar resultados anteriores
+        const resultadosDiv = document.getElementById("resultados");
+        resultadosDiv.innerHTML = "";
+
+        // Obtener el código del usuario
+        const codigo = document.getElementById("codigo").value;
+
+        // Crear un entorno aislado para ejecutar el código
+        const entorno = {};
+
+        try {
+          // Enfoque para ejecutar el código del usuario
+          const lines = codigo
+            .split("\n")
+            .filter(
+              (line) =>
+                line.trim() &&
+                !line.trim().startsWith("//") &&
+                line.trim() !== "// INICIO" &&
+                line.trim() !== "// FIN"
+            );
+
+          // Evaluar el código completo para incluir definiciones de funciones
+          const codigoCompleto = lines.join("\n");
+
+          // Usar Function para crear un entorno aislado
+          const funcionAislada = new Function(
+            "entorno",
+            `
+              with(entorno) {
+                ${codigoCompleto}
+                
+                // Exportar las funciones al entorno
+                entorno.sumarNumeros = typeof sumarNumeros === 'function' ? sumarNumeros : undefined;
+                entorno.contarPares = typeof contarPares === 'function' ? contarPares : undefined;
+                entorno.multiplicarArray = typeof multiplicarArray === 'function' ? multiplicarArray : undefined;
+                entorno.crearPatron = typeof crearPatron === 'function' ? crearPatron : undefined;
+              }
+            `
+          );
+
+          // Ejecutar la función aislada
+          funcionAislada(entorno);
+
+          // Pruebas
+          const pruebas = [
+            {
+              nombre:
+                "La función sumarNumeros calcula correctamente la suma de 1 hasta n",
+              prueba: () => {
+                if (typeof entorno.sumarNumeros !== "function") return false;
+
+                return (
+                  entorno.sumarNumeros(5) === 15 &&
+                  entorno.sumarNumeros(10) === 55 &&
+                  entorno.sumarNumeros(1) === 1
+                );
+              },
+            },
+            {
+              nombre:
+                "La función contarPares cuenta correctamente la cantidad de números pares",
+              prueba: () => {
+                if (typeof entorno.contarPares !== "function") return false;
+
+                return (
+                  entorno.contarPares([1, 2, 3, 4, 5]) === 2 &&
+                  entorno.contarPares([2, 4, 6, 8]) === 4 &&
+                  entorno.contarPares([1, 3, 5, 7]) === 0
+                );
+              },
+            },
+            {
+              nombre:
+                "La función multiplicarArray multiplica correctamente cada elemento del array",
+              prueba: () => {
+                if (typeof entorno.multiplicarArray !== "function")
+                  return false;
+
+                const resultado1 = entorno.multiplicarArray([1, 2, 3], 2);
+                const resultado2 = entorno.multiplicarArray([5, 10, 15], 3);
+
+                return (
+                  Array.isArray(resultado1) &&
+                  resultado1.length === 3 &&
+                  resultado1[0] === 2 &&
+                  resultado1[1] === 4 &&
+                  resultado1[2] === 6 &&
+                  Array.isArray(resultado2) &&
+                  resultado2.length === 3 &&
+                  resultado2[0] === 15 &&
+                  resultado2[1] === 30 &&
+                  resultado2[2] === 45
+                );
+              },
+            },
+            {
+              nombre:
+                "La función crearPatron genera correctamente el patrón de asteriscos",
+              prueba: () => {
+                if (typeof entorno.crearPatron !== "function") return false;
+
+                const patron3 = entorno.crearPatron(3);
+                const patron5 = entorno.crearPatron(5);
+
+                return (
+                  patron3 === "*\n**\n***" &&
+                  patron5 === "*\n**\n***\n****\n*****"
+                );
+              },
+            },
+          ];
+
+          // Ejecutar pruebas
+          let todasPasaron = true;
+          pruebas.forEach((prueba) => {
+            let resultado;
+            try {
+              resultado = prueba.prueba();
+            } catch (error) {
+              resultado = false;
+            }
+
+            const elementoPrueba = document.createElement("p");
+            elementoPrueba.className = resultado ? "test-pass" : "test-fail";
+            elementoPrueba.textContent = `${resultado ? "✓" : "✗"} ${
+              prueba.nombre
+            }`;
+            resultadosDiv.appendChild(elementoPrueba);
+
+            if (!resultado) todasPasaron = false;
+          });
+
+          // Mensaje final
+          const mensajeFinal = document.createElement("p");
+          mensajeFinal.style.fontWeight = "bold";
+          mensajeFinal.style.marginTop = "15px";
+          if (todasPasaron) {
+            mensajeFinal.className = "test-pass";
+            mensajeFinal.textContent =
+              "¡Felicidades! Has completado correctamente el ejercicio.";
+
+            // Notificar al índice que este ejercicio se ha completado
+            try {
+              window.parent.postMessage(
+                {
+                  tipo: "ejercicioCompletado",
+                  ejercicioId: "05-bucles/01-bucle-for",
+                },
+                "*"
+              );
+              // También guardar en localStorage como respaldo
+              localStorage.setItem(
+                "ejercicio_05-bucles/01-bucle-for",
+                "completado"
+              );
+            } catch (e) {
+              console.log("No se pudo notificar al índice", e);
+            }
+          } else {
+            mensajeFinal.className = "test-fail";
+            mensajeFinal.textContent =
+              "Hay errores en tu solución. Revisa las pruebas fallidas e intenta de nuevo.";
+
+            // Añadir botón para mostrar la solución
+            const botonSolucion = document.createElement("button");
+            botonSolucion.textContent = "Ver solución";
+            botonSolucion.style.marginTop = "15px";
+            botonSolucion.style.backgroundColor = "#6c757d";
+            botonSolucion.onclick = mostrarSolucion;
+            resultadosDiv.appendChild(botonSolucion);
+          }
+          resultadosDiv.appendChild(mensajeFinal);
+        } catch (error) {
+          // Mostrar error de sintaxis
+          const errorElement = document.createElement("p");
+          errorElement.className = "test-fail";
+          errorElement.textContent = `Error: ${error.message}`;
+          resultadosDiv.appendChild(errorElement);
+
+          // Añadir botón para mostrar la solución en caso de error
+          const botonSolucion = document.createElement("button");
+          botonSolucion.textContent = "Ver solución";
+          botonSolucion.style.marginTop = "15px";
+          botonSolucion.style.backgroundColor = "#6c757d";
+          botonSolucion.onclick = mostrarSolucion;
+          resultadosDiv.appendChild(botonSolucion);
+        }
+      }
+
+      // Función para mostrar la solución
+      function mostrarSolucion() {
+        const resultadosDiv = document.getElementById("resultados");
+
+        // Crear contenedor para la solución
+        const solucionDiv = document.createElement("div");
+        solucionDiv.style.marginTop = "20px";
+        solucionDiv.style.padding = "15px";
+        solucionDiv.style.backgroundColor = "#f8f9fa";
+        solucionDiv.style.border = "1px solid #e9ecef";
+        solucionDiv.style.borderRadius = "4px";
+
+        // Título de la solución
+        const tituloSolucion = document.createElement("h3");
+        tituloSolucion.textContent = "Solución propuesta";
+        solucionDiv.appendChild(tituloSolucion);
+
+        // Código de la solución
+        const codigoSolucion = document.createElement("pre");
+        codigoSolucion.style.backgroundColor = "#f1f1f1";
+        codigoSolucion.style.padding = "10px";
+        codigoSolucion.style.borderRadius = "4px";
+        codigoSolucion.style.overflow = "auto";
+
+        const codigo = document.createElement("code");
+        codigo.textContent = `// Bucle for básico
+let suma = 0;
+for (let i = 1; i <= 10; i++) {
+  suma += i;
+}
+
+// Bucle for para recorrer un array
+let numeros = [10, 20, 30, 40, 50];
+let sumaArray = 0;
+for (let i = 0; i < numeros.length; i++) {
+  sumaArray += numeros[i];
+}
+
+// Bucle for para crear un array de números pares
+let numerosPares = [];
+for (let i = 1; i <= 10; i++) {
+  if (i % 2 === 0) {
+    numerosPares.push(i);
+  }
+}`;
+
+        codigoSolucion.appendChild(codigo);
+        solucionDiv.appendChild(codigoSolucion);
+
+        // Explicación de la solución
+        const explicacionTitulo = document.createElement("h3");
+        explicacionTitulo.textContent = "Explicación";
+        solucionDiv.appendChild(explicacionTitulo);
+
+        const explicacion = document.createElement("ul");
+
+        const punto1 = document.createElement("li");
+        punto1.innerHTML =
+          "En el primer bucle, sumamos todos los números del 1 al 10. Inicializamos <code>i</code> en 1, continuamos mientras <code>i</code> sea menor o igual a 10, e incrementamos <code>i</code> en cada iteración.";
+        explicacion.appendChild(punto1);
+
+        const punto2 = document.createElement("li");
+        punto2.innerHTML =
+          "En el segundo bucle, recorremos un array de números y sumamos todos sus elementos. Inicializamos <code>i</code> en 0 (el primer índice del array), continuamos mientras <code>i</code> sea menor que la longitud del array, e incrementamos <code>i</code> en cada iteración.";
+        explicacion.appendChild(punto2);
+
+        const punto3 = document.createElement("li");
+        punto3.innerHTML =
+          "En el tercer bucle, creamos un array con los números pares del 1 al 10. Para cada número, comprobamos si es par usando el operador módulo (<code>%</code>) y, si es así, lo añadimos al array <code>numerosPares</code>.";
+        explicacion.appendChild(punto3);
+
+        solucionDiv.appendChild(explicacion);
+
+        // Botón para aplicar la solución
+        const botonAplicar = document.createElement("button");
+        botonAplicar.textContent = "Aplicar esta solución";
+        botonAplicar.style.marginTop = "15px";
+        botonAplicar.onclick = function () {
+          document.getElementById("codigo").value = codigo.textContent;
+          solucionDiv.remove();
+          ejecutarPruebas();
+        };
+        solucionDiv.appendChild(botonAplicar);
+
+        resultadosDiv.appendChild(solucionDiv);
+      }
+    </script>
+  </body>
+</html>

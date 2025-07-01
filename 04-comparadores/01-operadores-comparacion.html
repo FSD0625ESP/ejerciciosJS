@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 1: Operadores de Comparación</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      header {
+        background-color: #000;
+        padding: 20px;
+      }
+
+      header img {
+        width: 150px;
+      }
+      h1 {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+      pre {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        padding: 15px;
+        overflow: auto;
+      }
+      code {
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+      .test-results {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .test-pass {
+        color: #28a745;
+      }
+      .test-fail {
+        color: #dc3545;
+      }
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      textarea {
+        width: 100%;
+        height: 200px;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img
+        src="https://nuclio.school/wp-content/uploads/2022/12/NDS_Negative.webp"
+        alt="Nuclio Digital School"
+      />
+    </header>
+    <div style="text-align: right; margin-bottom: 20px">
+      <a href="../index.html" style="color: #3498db; text-decoration: none">
+        <span style="font-size: 14px">&#8592; Volver al índice</span>
+      </a>
+    </div>
+    <h1>Ejercicio 1: Operadores de Comparación</h1>
+
+    <h2>Enunciado</h2>
+    <p>
+      En este ejercicio, practicarás el uso de operadores de comparación en
+      JavaScript para evaluar condiciones y devolver valores booleanos.
+    </p>
+
+    <h3>Instrucciones:</h3>
+    <ol>
+      <li>
+        Crea una función llamada <code>esMayor</code> que reciba dos números
+        como parámetros y devuelva <code>true</code> si el primer número es
+        mayor que el segundo, o <code>false</code> en caso contrario.
+      </li>
+      <li>
+        Crea una función llamada <code>esIgual</code> que reciba dos valores
+        como parámetros y devuelva <code>true</code> si son exactamente iguales
+        (mismo valor y mismo tipo), o <code>false</code> en caso contrario.
+      </li>
+      <li>
+        Crea una función llamada <code>esIgualValor</code> que reciba dos
+        valores como parámetros y devuelva <code>true</code> si tienen el mismo
+        valor (independientemente del tipo), o <code>false</code> en caso
+        contrario.
+      </li>
+      <li>
+        Crea una función llamada <code>estaEnRango</code> que reciba tres
+        parámetros: un valor, un mínimo y un máximo. La función debe devolver
+        <code>true</code> si el valor está entre el mínimo y el máximo
+        (inclusive), o <code>false</code> en caso contrario.
+      </li>
+    </ol>
+
+    <h2>Tu código</h2>
+    <textarea id="codigo" placeholder="// Escribe tu código aquí">
+// Escribe tu código debajo de esta línea
+// INICIO
+
+// Tu código aquí
+
+// FIN</textarea
+    >
+    <button onclick="ejecutarPruebas()">Ejecutar pruebas</button>
+
+    <div class="test-results" id="resultados">
+      <p>Los resultados de las pruebas aparecerán aquí.</p>
+    </div>
+
+    <script>
+      function ejecutarPruebas() {
+        // Limpiar resultados anteriores
+        const resultadosDiv = document.getElementById("resultados");
+        resultadosDiv.innerHTML = "";
+
+        // Obtener el código del usuario
+        const codigo = document.getElementById("codigo").value;
+
+        // Crear un entorno aislado para ejecutar el código
+        const entorno = {};
+
+        try {
+          // Enfoque para ejecutar el código del usuario
+          const lines = codigo
+            .split("\n")
+            .filter(
+              (line) =>
+                line.trim() &&
+                !line.trim().startsWith("//") &&
+                line.trim() !== "// INICIO" &&
+                line.trim() !== "// FIN"
+            );
+
+          // Evaluar el código completo para incluir definiciones de funciones
+          const codigoCompleto = lines.join("\n");
+
+          // Usar Function para crear un entorno aislado
+          const funcionAislada = new Function(
+            "entorno",
+            `
+              with(entorno) {
+                ${codigoCompleto}
+                
+                // Exportar las funciones al entorno
+                entorno.esMayor = typeof esMayor === 'function' ? esMayor : undefined;
+                entorno.esIgual = typeof esIgual === 'function' ? esIgual : undefined;
+                entorno.esIgualValor = typeof esIgualValor === 'function' ? esIgualValor : undefined;
+                entorno.estaEnRango = typeof estaEnRango === 'function' ? estaEnRango : undefined;
+              }
+            `
+          );
+
+          // Ejecutar la función aislada
+          funcionAislada(entorno);
+
+          // Pruebas
+          const pruebas = [
+            {
+              nombre:
+                "La función esMayor compara correctamente si un número es mayor que otro",
+              prueba: () => {
+                if (typeof entorno.esMayor !== "function") return false;
+                return (
+                  entorno.esMayor(5, 3) === true &&
+                  entorno.esMayor(3, 5) === false &&
+                  entorno.esMayor(5, 5) === false
+                );
+              },
+            },
+            {
+              nombre:
+                "La función esIgual compara correctamente si dos valores son exactamente iguales",
+              prueba: () => {
+                if (typeof entorno.esIgual !== "function") return false;
+                return (
+                  entorno.esIgual(5, 5) === true &&
+                  entorno.esIgual(5, "5") === false &&
+                  entorno.esIgual(0, false) === false &&
+                  entorno.esIgual(null, undefined) === false
+                );
+              },
+            },
+            {
+              nombre:
+                "La función esIgualValor compara correctamente si dos valores tienen el mismo valor",
+              prueba: () => {
+                if (typeof entorno.esIgualValor !== "function") return false;
+                return (
+                  entorno.esIgualValor(5, 5) === true &&
+                  entorno.esIgualValor(5, "5") === true &&
+                  entorno.esIgualValor(0, false) === true &&
+                  entorno.esIgualValor(null, undefined) === true
+                );
+              },
+            },
+            {
+              nombre:
+                "La función estaEnRango comprueba correctamente si un valor está dentro de un rango",
+              prueba: () => {
+                if (typeof entorno.estaEnRango !== "function") return false;
+                return (
+                  entorno.estaEnRango(5, 1, 10) === true &&
+                  entorno.estaEnRango(1, 1, 10) === true &&
+                  entorno.estaEnRango(10, 1, 10) === true &&
+                  entorno.estaEnRango(0, 1, 10) === false &&
+                  entorno.estaEnRango(11, 1, 10) === false
+                );
+              },
+            },
+          ];
+
+          // Ejecutar pruebas
+          let todasPasaron = true;
+          pruebas.forEach((prueba) => {
+            let resultado;
+            try {
+              resultado = prueba.prueba();
+            } catch (error) {
+              resultado = false;
+            }
+
+            const elementoPrueba = document.createElement("p");
+            elementoPrueba.className = resultado ? "test-pass" : "test-fail";
+            elementoPrueba.textContent = `${resultado ? "✓" : "✗"} ${
+              prueba.nombre
+            }`;
+            resultadosDiv.appendChild(elementoPrueba);
+
+            if (!resultado) todasPasaron = false;
+          });
+
+          // Mensaje final
+          const mensajeFinal = document.createElement("p");
+          mensajeFinal.style.fontWeight = "bold";
+          mensajeFinal.style.marginTop = "15px";
+          if (todasPasaron) {
+            mensajeFinal.className = "test-pass";
+            mensajeFinal.textContent =
+              "¡Felicidades! Has completado correctamente el ejercicio.";
+
+            // Notificar al índice que este ejercicio se ha completado
+            try {
+              window.parent.postMessage(
+                {
+                  tipo: "ejercicioCompletado",
+                  ejercicioId: "03-comparadores/01-operadores-comparacion",
+                },
+                "*"
+              );
+              // También guardar en localStorage como respaldo
+              localStorage.setItem(
+                "ejercicio_03-comparadores/01-operadores-comparacion",
+                "completado"
+              );
+            } catch (e) {
+              console.log("No se pudo notificar al índice", e);
+            }
+          } else {
+            mensajeFinal.className = "test-fail";
+            mensajeFinal.textContent =
+              "Hay errores en tu solución. Revisa las pruebas fallidas e intenta de nuevo.";
+
+            // Añadir botón para mostrar la solución
+            const botonSolucion = document.createElement("button");
+            botonSolucion.textContent = "Ver solución";
+            botonSolucion.style.marginTop = "15px";
+            botonSolucion.style.backgroundColor = "#6c757d";
+            botonSolucion.onclick = mostrarSolucion;
+            resultadosDiv.appendChild(botonSolucion);
+          }
+          resultadosDiv.appendChild(mensajeFinal);
+        } catch (error) {
+          // Mostrar error de sintaxis
+          const errorElement = document.createElement("p");
+          errorElement.className = "test-fail";
+          errorElement.textContent = `Error: ${error.message}`;
+          resultadosDiv.appendChild(errorElement);
+
+          // Añadir botón para mostrar la solución en caso de error
+          const botonSolucion = document.createElement("button");
+          botonSolucion.textContent = "Ver solución";
+          botonSolucion.style.marginTop = "15px";
+          botonSolucion.style.backgroundColor = "#6c757d";
+          botonSolucion.onclick = mostrarSolucion;
+          resultadosDiv.appendChild(botonSolucion);
+        }
+      }
+
+      // Función para mostrar la solución
+      function mostrarSolucion() {
+        const resultadosDiv = document.getElementById("resultados");
+
+        // Crear contenedor para la solución
+        const solucionDiv = document.createElement("div");
+        solucionDiv.style.marginTop = "20px";
+        solucionDiv.style.padding = "15px";
+        solucionDiv.style.backgroundColor = "#f8f9fa";
+        solucionDiv.style.border = "1px solid #e9ecef";
+        solucionDiv.style.borderRadius = "4px";
+
+        // Título de la solución
+        const tituloSolucion = document.createElement("h3");
+        tituloSolucion.textContent = "Solución propuesta";
+        solucionDiv.appendChild(tituloSolucion);
+
+        // Código de la solución
+        const codigoSolucion = document.createElement("pre");
+        codigoSolucion.style.backgroundColor = "#f1f1f1";
+        codigoSolucion.style.padding = "10px";
+        codigoSolucion.style.borderRadius = "4px";
+        codigoSolucion.style.overflow = "auto";
+
+        const codigo = document.createElement("code");
+        codigo.textContent = `// Declaración de variables
+let a = 10;
+let b = 5;
+let c = "10";
+
+// Operadores de comparación
+let igual = a == c;           // true (compara valor, no tipo)
+let estrictamenteIgual = a === c; // false (compara valor y tipo)
+let diferente = a != b;       // true
+let estrictamenteDiferente = a !== c; // true
+let mayor = a > b;            // true
+let menor = a < b;            // false
+let mayorIgual = a >= b;      // true
+let menorIgual = a <= b;      // false`;
+
+        codigoSolucion.appendChild(codigo);
+        solucionDiv.appendChild(codigoSolucion);
+
+        // Explicación de la solución
+        const explicacionTitulo = document.createElement("h3");
+        explicacionTitulo.textContent = "Explicación";
+        solucionDiv.appendChild(explicacionTitulo);
+
+        const explicacion = document.createElement("ul");
+
+        const punto1 = document.createElement("li");
+        punto1.innerHTML =
+          "Declaramos tres variables: <code>a</code> y <code>b</code> con valores numéricos, y <code>c</code> con un valor string que representa un número.";
+        explicacion.appendChild(punto1);
+
+        const punto2 = document.createElement("li");
+        punto2.innerHTML =
+          "<code>igual</code> (==) compara si los valores son iguales sin importar el tipo, por lo que <code>10 == '10'</code> es <code>true</code>.";
+        explicacion.appendChild(punto2);
+
+        const punto3 = document.createElement("li");
+        punto3.innerHTML =
+          "<code>estrictamenteIgual</code> (===) compara tanto el valor como el tipo, por lo que <code>10 === '10'</code> es <code>false</code> porque uno es número y otro string.";
+        explicacion.appendChild(punto3);
+
+        const punto4 = document.createElement("li");
+        punto4.innerHTML =
+          "<code>diferente</code> (!=) compara si los valores son diferentes sin importar el tipo, por lo que <code>10 != 5</code> es <code>true</code>.";
+        explicacion.appendChild(punto4);
+
+        const punto5 = document.createElement("li");
+        punto5.innerHTML =
+          "<code>estrictamenteDiferente</code> (!==) compara si los valores o los tipos son diferentes, por lo que <code>10 !== '10'</code> es <code>true</code> porque son de tipos diferentes.";
+        explicacion.appendChild(punto5);
+
+        const punto6 = document.createElement("li");
+        punto6.innerHTML =
+          "Los operadores <code>mayor</code> (>), <code>menor</code> (<), <code>mayorIgual</code> (>=) y <code>menorIgual</code> (<=) comparan los valores numéricos.";
+        explicacion.appendChild(punto6);
+
+        solucionDiv.appendChild(explicacion);
+
+        // Botón para aplicar la solución
+        const botonAplicar = document.createElement("button");
+        botonAplicar.textContent = "Aplicar esta solución";
+        botonAplicar.style.marginTop = "15px";
+        botonAplicar.onclick = function () {
+          document.getElementById("codigo").value = codigo.textContent;
+          solucionDiv.remove();
+          ejecutarPruebas();
+        };
+        solucionDiv.appendChild(botonAplicar);
+
+        resultadosDiv.appendChild(solucionDiv);
+      }
+    </script>
+  </body>
+</html>

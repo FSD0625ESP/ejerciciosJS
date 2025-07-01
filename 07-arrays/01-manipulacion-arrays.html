@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 1: Manipulación de Arrays</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      header {
+        background-color: #000;
+        padding: 20px;
+      }
+
+      header img {
+        width: 150px;
+      }
+      h1 {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+      pre {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        padding: 15px;
+        overflow: auto;
+      }
+      code {
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+      .test-results {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .test-pass {
+        color: #28a745;
+      }
+      .test-fail {
+        color: #dc3545;
+      }
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      textarea {
+        width: 100%;
+        height: 200px;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img
+        src="https://nuclio.school/wp-content/uploads/2022/12/NDS_Negative.webp"
+        alt="Nuclio Digital School"
+      />
+    </header>
+    <div style="text-align: right; margin-bottom: 20px">
+      <a href="../index.html" style="color: #3498db; text-decoration: none">
+        <span style="font-size: 14px">&#8592; Volver al índice</span>
+      </a>
+    </div>
+    <h1>Ejercicio 1: Manipulación de Arrays</h1>
+
+    <h2>Enunciado</h2>
+    <p>
+      En este ejercicio, practicarás la manipulación de arrays en JavaScript
+      utilizando diferentes métodos y técnicas.
+    </p>
+
+    <h3>Instrucciones:</h3>
+    <ol>
+      <li>
+        Crea una función llamada <code>obtenerPrimeroYUltimo</code> que reciba
+        un array como parámetro y devuelva un nuevo array que contenga solo el
+        primer y último elemento del array original.
+      </li>
+      <li>
+        Crea una función llamada <code>eliminarDuplicados</code> que reciba un
+        array como parámetro y devuelva un nuevo array sin elementos duplicados.
+      </li>
+      <li>
+        Crea una función llamada <code>filtrarPorLongitud</code> que reciba un
+        array de strings y un número como parámetros, y devuelva un nuevo array
+        que contenga solo los strings cuya longitud sea mayor o igual al número
+        proporcionado.
+      </li>
+      <li>
+        Crea una función llamada <code>sumarArrays</code> que reciba dos arrays
+        de números de la misma longitud y devuelva un nuevo array donde cada
+        elemento sea la suma de los elementos correspondientes de los arrays de
+        entrada.
+      </li>
+    </ol>
+
+    <h2>Tu código</h2>
+    <textarea id="codigo" placeholder="// Escribe tu código aquí">
+// Escribe tu código debajo de esta línea
+// INICIO
+
+// Tu código aquí
+
+// FIN</textarea
+    >
+    <button onclick="ejecutarPruebas()">Ejecutar pruebas</button>
+
+    <div class="test-results" id="resultados">
+      <p>Los resultados de las pruebas aparecerán aquí.</p>
+    </div>
+
+    <script>
+      function ejecutarPruebas() {
+        // Limpiar resultados anteriores
+        const resultadosDiv = document.getElementById("resultados");
+        resultadosDiv.innerHTML = "";
+
+        // Obtener el código del usuario
+        const codigo = document.getElementById("codigo").value;
+
+        // Crear un entorno aislado para ejecutar el código
+        const entorno = {};
+
+        try {
+          // Enfoque para ejecutar el código del usuario
+          const lines = codigo
+            .split("\n")
+            .filter(
+              (line) =>
+                line.trim() &&
+                !line.trim().startsWith("//") &&
+                line.trim() !== "// INICIO" &&
+                line.trim() !== "// FIN"
+            );
+
+          // Evaluar el código completo para incluir definiciones de funciones
+          const codigoCompleto = lines.join("\n");
+
+          // Usar Function para crear un entorno aislado
+          const funcionAislada = new Function(
+            "entorno",
+            `
+              with(entorno) {
+                ${codigoCompleto}
+                
+                // Exportar las funciones al entorno
+                entorno.obtenerPrimeroYUltimo = typeof obtenerPrimeroYUltimo === 'function' ? obtenerPrimeroYUltimo : undefined;
+                entorno.eliminarDuplicados = typeof eliminarDuplicados === 'function' ? eliminarDuplicados : undefined;
+                entorno.filtrarPorLongitud = typeof filtrarPorLongitud === 'function' ? filtrarPorLongitud : undefined;
+                entorno.sumarArrays = typeof sumarArrays === 'function' ? sumarArrays : undefined;
+              }
+            `
+          );
+
+          // Ejecutar la función aislada
+          funcionAislada(entorno);
+
+          // Pruebas
+          const pruebas = [
+            {
+              nombre:
+                "La función obtenerPrimeroYUltimo devuelve correctamente el primer y último elemento",
+              prueba: () => {
+                if (typeof entorno.obtenerPrimeroYUltimo !== "function")
+                  return false;
+
+                const resultado1 = entorno.obtenerPrimeroYUltimo([
+                  1, 2, 3, 4, 5,
+                ]);
+                const resultado2 = entorno.obtenerPrimeroYUltimo([
+                  "a",
+                  "b",
+                  "c",
+                ]);
+
+                return (
+                  Array.isArray(resultado1) &&
+                  resultado1.length === 2 &&
+                  resultado1[0] === 1 &&
+                  resultado1[1] === 5 &&
+                  Array.isArray(resultado2) &&
+                  resultado2.length === 2 &&
+                  resultado2[0] === "a" &&
+                  resultado2[1] === "c"
+                );
+              },
+            },
+            {
+              nombre:
+                "La función eliminarDuplicados elimina correctamente los elementos duplicados",
+              prueba: () => {
+                if (typeof entorno.eliminarDuplicados !== "function")
+                  return false;
+
+                const resultado1 = entorno.eliminarDuplicados([
+                  1, 2, 2, 3, 4, 4, 5,
+                ]);
+                const resultado2 = entorno.eliminarDuplicados([
+                  "a",
+                  "b",
+                  "a",
+                  "c",
+                  "b",
+                ]);
+
+                return (
+                  Array.isArray(resultado1) &&
+                  resultado1.length === 5 &&
+                  resultado1.includes(1) &&
+                  resultado1.includes(2) &&
+                  resultado1.includes(3) &&
+                  resultado1.includes(4) &&
+                  resultado1.includes(5) &&
+                  Array.isArray(resultado2) &&
+                  resultado2.length === 3 &&
+                  resultado2.includes("a") &&
+                  resultado2.includes("b") &&
+                  resultado2.includes("c")
+                );
+              },
+            },
+            {
+              nombre:
+                "La función filtrarPorLongitud filtra correctamente los strings por longitud",
+              prueba: () => {
+                if (typeof entorno.filtrarPorLongitud !== "function")
+                  return false;
+
+                const resultado1 = entorno.filtrarPorLongitud(
+                  ["hola", "mundo", "js", "array"],
+                  4
+                );
+                const resultado2 = entorno.filtrarPorLongitud(
+                  ["uno", "dos", "tres", "cuatro", "cinco"],
+                  5
+                );
+
+                return (
+                  Array.isArray(resultado1) &&
+                  resultado1.length === 2 &&
+                  resultado1.includes("hola") &&
+                  resultado1.includes("mundo") &&
+                  Array.isArray(resultado2) &&
+                  resultado2.length === 2 &&
+                  resultado2.includes("cuatro") &&
+                  resultado2.includes("cinco")
+                );
+              },
+            },
+            {
+              nombre:
+                "La función sumarArrays suma correctamente los elementos correspondientes",
+              prueba: () => {
+                if (typeof entorno.sumarArrays !== "function") return false;
+
+                const resultado1 = entorno.sumarArrays([1, 2, 3], [4, 5, 6]);
+                const resultado2 = entorno.sumarArrays([10, 20], [5, 10]);
+
+                return (
+                  Array.isArray(resultado1) &&
+                  resultado1.length === 3 &&
+                  resultado1[0] === 5 &&
+                  resultado1[1] === 7 &&
+                  resultado1[2] === 9 &&
+                  Array.isArray(resultado2) &&
+                  resultado2.length === 2 &&
+                  resultado2[0] === 15 &&
+                  resultado2[1] === 30
+                );
+              },
+            },
+          ];
+
+          // Ejecutar pruebas
+          let todasPasaron = true;
+          pruebas.forEach((prueba) => {
+            let resultado;
+            try {
+              resultado = prueba.prueba();
+            } catch (error) {
+              resultado = false;
+            }
+
+            const elementoPrueba = document.createElement("p");
+            elementoPrueba.className = resultado ? "test-pass" : "test-fail";
+            elementoPrueba.textContent = `${resultado ? "✓" : "✗"} ${
+              prueba.nombre
+            }`;
+            resultadosDiv.appendChild(elementoPrueba);
+
+            if (!resultado) todasPasaron = false;
+          });
+
+          // Mensaje final
+          const mensajeFinal = document.createElement("p");
+          mensajeFinal.style.fontWeight = "bold";
+          mensajeFinal.style.marginTop = "15px";
+          if (todasPasaron) {
+            mensajeFinal.className = "test-pass";
+            mensajeFinal.textContent =
+              "¡Felicidades! Has completado correctamente el ejercicio.";
+
+            // Notificar al índice que este ejercicio se ha completado
+            try {
+              window.parent.postMessage(
+                {
+                  tipo: "ejercicioCompletado",
+                  ejercicioId: "07-arrays/01-manipulacion-arrays",
+                },
+                "*"
+              );
+              // También guardar en localStorage como respaldo
+              localStorage.setItem(
+                "ejercicio_07-arrays/01-manipulacion-arrays",
+                "completado"
+              );
+            } catch (e) {
+              console.log("No se pudo notificar al índice", e);
+            }
+          } else {
+            mensajeFinal.className = "test-fail";
+            mensajeFinal.textContent =
+              "Hay errores en tu solución. Revisa las pruebas fallidas e intenta de nuevo.";
+
+            // Añadir botón para mostrar la solución
+            const botonSolucion = document.createElement("button");
+            botonSolucion.textContent = "Ver solución";
+            botonSolucion.style.marginTop = "15px";
+            botonSolucion.style.backgroundColor = "#6c757d";
+            botonSolucion.onclick = mostrarSolucion;
+            resultadosDiv.appendChild(botonSolucion);
+          }
+          resultadosDiv.appendChild(mensajeFinal);
+        } catch (error) {
+          // Mostrar error de sintaxis
+          const errorElement = document.createElement("p");
+          errorElement.className = "test-fail";
+          errorElement.textContent = `Error: ${error.message}`;
+          resultadosDiv.appendChild(errorElement);
+
+          // Añadir botón para mostrar la solución en caso de error
+          const botonSolucion = document.createElement("button");
+          botonSolucion.textContent = "Ver solución";
+          botonSolucion.style.marginTop = "15px";
+          botonSolucion.style.backgroundColor = "#6c757d";
+          botonSolucion.onclick = mostrarSolucion;
+          resultadosDiv.appendChild(botonSolucion);
+        }
+      }
+
+      // Función para mostrar la solución
+      function mostrarSolucion() {
+        const resultadosDiv = document.getElementById("resultados");
+
+        // Crear contenedor para la solución
+        const solucionDiv = document.createElement("div");
+        solucionDiv.style.marginTop = "20px";
+        solucionDiv.style.padding = "15px";
+        solucionDiv.style.backgroundColor = "#f8f9fa";
+        solucionDiv.style.border = "1px solid #e9ecef";
+        solucionDiv.style.borderRadius = "4px";
+
+        // Título de la solución
+        const tituloSolucion = document.createElement("h3");
+        tituloSolucion.textContent = "Solución propuesta";
+        solucionDiv.appendChild(tituloSolucion);
+
+        // Código de la solución
+        const codigoSolucion = document.createElement("pre");
+        codigoSolucion.style.backgroundColor = "#f1f1f1";
+        codigoSolucion.style.padding = "10px";
+        codigoSolucion.style.borderRadius = "4px";
+        codigoSolucion.style.overflow = "auto";
+
+        const codigo = document.createElement("code");
+        codigo.textContent = `// Declaración de arrays
+let frutas = ["manzana", "plátano", "naranja", "uva", "pera"];
+let numeros = [10, 20, 30, 40, 50];
+
+// Acceso a elementos
+let primeraFruta = frutas[0];
+let ultimaFruta = frutas[frutas.length - 1];
+
+// Modificación de elementos
+frutas[1] = "kiwi";
+
+// Métodos de arrays
+// Añadir elementos
+frutas.push("mango"); // Añade al final
+frutas.unshift("fresa"); // Añade al principio
+
+// Eliminar elementos
+let ultimoEliminado = frutas.pop(); // Elimina y devuelve el último
+let primeroEliminado = frutas.shift(); // Elimina y devuelve el primero
+
+// Encontrar elementos
+let indiceNaranja = frutas.indexOf("naranja");
+
+// Filtrar elementos
+let numerosPares = numeros.filter(function(numero) {
+  return numero % 2 === 0;
+});
+
+// Transformar elementos
+let numerosDobles = numeros.map(function(numero) {
+  return numero * 2;
+});
+
+// Ordenar elementos
+frutas.sort();`;
+
+        codigoSolucion.appendChild(codigo);
+        solucionDiv.appendChild(codigoSolucion);
+
+        // Explicación de la solución
+        const explicacionTitulo = document.createElement("h3");
+        explicacionTitulo.textContent = "Explicación";
+        solucionDiv.appendChild(explicacionTitulo);
+
+        const explicacion = document.createElement("ul");
+
+        const punto1 = document.createElement("li");
+        punto1.innerHTML =
+          "Declaramos dos arrays: <code>frutas</code> con strings y <code>numeros</code> con valores numéricos.";
+        explicacion.appendChild(punto1);
+
+        const punto2 = document.createElement("li");
+        punto2.innerHTML =
+          "Accedemos a elementos específicos usando la notación de corchetes <code>[]</code>. Los índices comienzan en 0.";
+        explicacion.appendChild(punto2);
+
+        const punto3 = document.createElement("li");
+        punto3.innerHTML =
+          "Modificamos un elemento asignando un nuevo valor a una posición específica.";
+        explicacion.appendChild(punto3);
+
+        const punto4 = document.createElement("li");
+        punto4.innerHTML =
+          "Usamos <code>push</code> y <code>unshift</code> para añadir elementos al final y al principio del array, respectivamente.";
+        explicacion.appendChild(punto4);
+
+        const punto5 = document.createElement("li");
+        punto5.innerHTML =
+          "Usamos <code>pop</code> y <code>shift</code> para eliminar y obtener elementos del final y del principio del array, respectivamente.";
+        explicacion.appendChild(punto5);
+
+        const punto6 = document.createElement("li");
+        punto6.innerHTML =
+          "Usamos <code>indexOf</code> para encontrar la posición de un elemento en el array.";
+        explicacion.appendChild(punto6);
+
+        const punto7 = document.createElement("li");
+        punto7.innerHTML =
+          "Usamos <code>filter</code> para crear un nuevo array con los elementos que cumplen una condición (en este caso, números pares).";
+        explicacion.appendChild(punto7);
+
+        const punto8 = document.createElement("li");
+        punto8.innerHTML =
+          "Usamos <code>map</code> para crear un nuevo array aplicando una transformación a cada elemento (en este caso, multiplicando por 2).";
+        explicacion.appendChild(punto8);
+
+        const punto9 = document.createElement("li");
+        punto9.innerHTML =
+          "Usamos <code>sort</code> para ordenar los elementos del array (por defecto, en orden alfabético para strings).";
+        explicacion.appendChild(punto9);
+
+        solucionDiv.appendChild(explicacion);
+
+        // Botón para aplicar la solución
+        const botonAplicar = document.createElement("button");
+        botonAplicar.textContent = "Aplicar esta solución";
+        botonAplicar.style.marginTop = "15px";
+        botonAplicar.onclick = function () {
+          document.getElementById("codigo").value = codigo.textContent;
+          solucionDiv.remove();
+          ejecutarPruebas();
+        };
+        solucionDiv.appendChild(botonAplicar);
+
+        resultadosDiv.appendChild(solucionDiv);
+      }
+    </script>
+  </body>
+</html>

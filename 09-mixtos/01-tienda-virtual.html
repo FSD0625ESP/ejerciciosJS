@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 1: Tienda Virtual</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      header {
+        background-color: #000;
+        padding: 20px;
+      }
+
+      header img {
+        width: 150px;
+      }
+      h1 {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+      pre {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        padding: 15px;
+        overflow: auto;
+      }
+      code {
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+      .test-results {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .test-pass {
+        color: #28a745;
+      }
+      .test-fail {
+        color: #dc3545;
+      }
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      textarea {
+        width: 100%;
+        height: 400px;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img
+        src="https://nuclio.school/wp-content/uploads/2022/12/NDS_Negative.webp"
+        alt="Nuclio Digital School"
+      />
+    </header>
+    <div style="text-align: right; margin-bottom: 20px">
+      <a href="../index.html" style="color: #3498db; text-decoration: none">
+        <span style="font-size: 14px">&#8592; Volver al índice</span>
+      </a>
+    </div>
+    <h1>Ejercicio 1: Tienda Virtual</h1>
+
+    <h2>Enunciado</h2>
+    <p>
+      En este ejercicio, crearás un sistema básico para gestionar una tienda
+      virtual, combinando varios conceptos de JavaScript como objetos, arrays,
+      funciones y estructuras de control.
+    </p>
+
+    <h3>Instrucciones:</h3>
+    <ol>
+      <li>
+        Crea un array llamado <code>inventario</code> que contenga al menos 5
+        objetos, cada uno representando un producto con las siguientes
+        propiedades:
+        <ul>
+          <li><code>id</code>: Un número único para identificar el producto</li>
+          <li><code>nombre</code>: El nombre del producto</li>
+          <li><code>precio</code>: El precio del producto</li>
+          <li><code>stock</code>: La cantidad disponible del producto</li>
+          <li>
+            <code>categoria</code>: La categoría a la que pertenece el producto
+            (por ejemplo, "electrónica", "ropa", etc.)
+          </li>
+        </ul>
+      </li>
+      <li>
+        Crea un objeto llamado <code>tienda</code> con las siguientes
+        propiedades y métodos:
+        <ul>
+          <li><code>nombre</code>: El nombre de tu tienda</li>
+          <li>
+            <code>inventario</code>: El array de productos que creaste
+            anteriormente
+          </li>
+          <li>
+            <code>carrito</code>: Un array vacío que representará el carrito de
+            compras
+          </li>
+          <li>
+            <code>buscarProducto</code>: Un método que reciba un ID y devuelva
+            el producto correspondiente o <code>null</code> si no existe
+          </li>
+          <li>
+            <code>agregarAlCarrito</code>: Un método que reciba un ID de
+            producto y una cantidad, y añada el producto al carrito si hay
+            suficiente stock
+          </li>
+          <li>
+            <code>calcularTotal</code>: Un método que calcule y devuelva el
+            total de los productos en el carrito
+          </li>
+          <li>
+            <code>realizarCompra</code>: Un método que "procese" la compra,
+            actualizando el stock de los productos y vaciando el carrito
+          </li>
+        </ul>
+      </li>
+      <li>
+        Crea una función llamada <code>filtrarPorCategoria</code> que reciba el
+        inventario y una categoría como parámetros, y devuelva un array con los
+        productos que pertenecen a esa categoría.
+      </li>
+      <li>
+        Crea una función llamada <code>ordenarPorPrecio</code> que reciba el
+        inventario y un booleano <code>ascendente</code> como parámetros, y
+        devuelva un nuevo array con los productos ordenados por precio
+        (ascendente o descendente según el valor del booleano).
+      </li>
+    </ol>
+
+    <h2>Tu código</h2>
+    <textarea id="codigo" placeholder="// Escribe tu código aquí">
+// Escribe tu código debajo de esta línea
+// INICIO
+
+// Tu código aquí
+
+// FIN</textarea
+    >
+    <button onclick="ejecutarPruebas()">Ejecutar pruebas</button>
+
+    <div class="test-results" id="resultados">
+      <p>Los resultados de las pruebas aparecerán aquí.</p>
+    </div>
+
+    <script>
+      function ejecutarPruebas() {
+        // Limpiar resultados anteriores
+        const resultadosDiv = document.getElementById("resultados");
+        resultadosDiv.innerHTML = "";
+
+        // Obtener el código del usuario
+        const codigo = document.getElementById("codigo").value;
+
+        // Crear un entorno aislado para ejecutar el código
+        const entorno = {};
+
+        try {
+          // Enfoque para ejecutar el código del usuario
+          const lines = codigo
+            .split("\n")
+            .filter(
+              (line) =>
+                line.trim() &&
+                !line.trim().startsWith("//") &&
+                line.trim() !== "// INICIO" &&
+                line.trim() !== "// FIN"
+            );
+
+          // Evaluar el código completo para incluir definiciones de funciones y objetos
+          const codigoCompleto = lines.join("\n");
+
+          // Usar Function para crear un entorno aislado
+          const funcionAislada = new Function(
+            "entorno",
+            `
+              with(entorno) {
+                ${codigoCompleto}
+                
+                // Exportar variables, objetos y funciones al entorno
+                entorno.inventario = typeof inventario !== 'undefined' ? inventario : undefined;
+                entorno.tienda = typeof tienda !== 'undefined' ? tienda : undefined;
+                entorno.filtrarPorCategoria = typeof filtrarPorCategoria === 'function' ? filtrarPorCategoria : undefined;
+                entorno.ordenarPorPrecio = typeof ordenarPorPrecio === 'function' ? ordenarPorPrecio : undefined;
+              }
+            `
+          );
+
+          // Ejecutar la función aislada
+          funcionAislada(entorno);
+
+          // Pruebas
+          const pruebas = [
+            {
+              nombre:
+                "El inventario contiene al menos 5 productos con todas las propiedades requeridas",
+              prueba: () => {
+                if (
+                  !Array.isArray(entorno.inventario) ||
+                  entorno.inventario.length < 5
+                )
+                  return false;
+
+                return entorno.inventario.every(
+                  (producto) =>
+                    typeof producto.id !== "undefined" &&
+                    typeof producto.nombre === "string" &&
+                    typeof producto.precio === "number" &&
+                    typeof producto.stock === "number" &&
+                    typeof producto.categoria === "string"
+                );
+              },
+            },
+            {
+              nombre:
+                "El método buscarProducto encuentra correctamente un producto por su ID",
+              prueba: () => {
+                if (
+                  !entorno.tienda ||
+                  typeof entorno.tienda.buscarProducto !== "function"
+                )
+                  return false;
+
+                // Verificar que encuentra un producto existente
+                const primerProducto = entorno.inventario[0];
+                const productoEncontrado = entorno.tienda.buscarProducto(
+                  primerProducto.id
+                );
+
+                // Verificar que devuelve null para un ID inexistente
+                const idInexistente =
+                  Math.max(...entorno.inventario.map((p) => p.id)) + 1000;
+                const productoNoEncontrado =
+                  entorno.tienda.buscarProducto(idInexistente);
+
+                return (
+                  productoEncontrado &&
+                  productoEncontrado.id === primerProducto.id &&
+                  productoNoEncontrado === null
+                );
+              },
+            },
+            {
+              nombre:
+                "El método agregarAlCarrito añade correctamente productos al carrito",
+              prueba: () => {
+                if (
+                  !entorno.tienda ||
+                  typeof entorno.tienda.agregarAlCarrito !== "function"
+                )
+                  return false;
+
+                // Reiniciar el carrito
+                entorno.tienda.carrito = [];
+
+                // Seleccionar un producto con stock suficiente
+                const producto = entorno.inventario.find((p) => p.stock >= 2);
+                if (!producto) return false;
+
+                // Intentar agregar una cantidad válida
+                const resultado1 = entorno.tienda.agregarAlCarrito(
+                  producto.id,
+                  2
+                );
+
+                // Verificar que el carrito contiene el producto
+                const enCarrito = entorno.tienda.carrito.some(
+                  (item) =>
+                    item.producto &&
+                    item.producto.id === producto.id &&
+                    item.cantidad === 2
+                );
+
+                // Intentar agregar una cantidad mayor al stock disponible
+                const stockExcesivo = producto.stock + 10;
+                const resultado2 = entorno.tienda.agregarAlCarrito(
+                  producto.id,
+                  stockExcesivo
+                );
+
+                return resultado1 === true && enCarrito && resultado2 === false;
+              },
+            },
+            {
+              nombre:
+                "El método calcularTotal calcula correctamente el total del carrito",
+              prueba: () => {
+                if (
+                  !entorno.tienda ||
+                  typeof entorno.tienda.calcularTotal !== "function"
+                )
+                  return false;
+
+                // Reiniciar el carrito
+                entorno.tienda.carrito = [];
+
+                // Agregar algunos productos al carrito
+                const producto1 = entorno.inventario[0];
+                const producto2 = entorno.inventario[1];
+
+                entorno.tienda.carrito.push({
+                  producto: producto1,
+                  cantidad: 2,
+                });
+
+                entorno.tienda.carrito.push({
+                  producto: producto2,
+                  cantidad: 1,
+                });
+
+                const totalEsperado =
+                  producto1.precio * 2 + producto2.precio * 1;
+                const totalCalculado = entorno.tienda.calcularTotal();
+
+                return Math.abs(totalCalculado - totalEsperado) < 0.001;
+              },
+            },
+            {
+              nombre:
+                "El método realizarCompra actualiza correctamente el stock y vacía el carrito",
+              prueba: () => {
+                if (
+                  !entorno.tienda ||
+                  typeof entorno.tienda.realizarCompra !== "function"
+                )
+                  return false;
+
+                // Reiniciar el carrito
+                entorno.tienda.carrito = [];
+
+                // Guardar el stock original
+                const stockOriginal = {};
+                entorno.inventario.forEach((p) => {
+                  stockOriginal[p.id] = p.stock;
+                });
+
+                // Agregar algunos productos al carrito
+                const producto1 = entorno.inventario[0];
+                const producto2 = entorno.inventario[1];
+
+                entorno.tienda.carrito.push({
+                  producto: producto1,
+                  cantidad: 2,
+                });
+
+                entorno.tienda.carrito.push({
+                  producto: producto2,
+                  cantidad: 1,
+                });
+
+                // Realizar la compra
+                entorno.tienda.realizarCompra();
+
+                // Verificar que el stock se actualizó correctamente
+                const stockActualizado1 = entorno.tienda.inventario.find(
+                  (p) => p.id === producto1.id
+                ).stock;
+                const stockActualizado2 = entorno.tienda.inventario.find(
+                  (p) => p.id === producto2.id
+                ).stock;
+
+                // Verificar que el carrito está vacío
+                const carritoVacio = entorno.tienda.carrito.length === 0;
+
+                return (
+                  stockActualizado1 === stockOriginal[producto1.id] - 2 &&
+                  stockActualizado2 === stockOriginal[producto2.id] - 1 &&
+                  carritoVacio
+                );
+              },
+            },
+            {
+              nombre:
+                "La función filtrarPorCategoria filtra correctamente los productos por categoría",
+              prueba: () => {
+                if (typeof entorno.filtrarPorCategoria !== "function")
+                  return false;
+
+                // Obtener una categoría existente
+                const categorias = [
+                  ...new Set(entorno.inventario.map((p) => p.categoria)),
+                ];
+                if (categorias.length === 0) return false;
+
+                const categoria = categorias[0];
+                const productosEsperados = entorno.inventario.filter(
+                  (p) => p.categoria === categoria
+                );
+                const productosFiltrados = entorno.filtrarPorCategoria(
+                  entorno.inventario,
+                  categoria
+                );
+
+                return (
+                  Array.isArray(productosFiltrados) &&
+                  productosFiltrados.length === productosEsperados.length &&
+                  productosFiltrados.every((p) => p.categoria === categoria)
+                );
+              },
+            },
+            {
+              nombre:
+                "La función ordenarPorPrecio ordena correctamente los productos por precio",
+              prueba: () => {
+                if (typeof entorno.ordenarPorPrecio !== "function")
+                  return false;
+
+                // Probar ordenamiento ascendente
+                const ascendente = entorno.ordenarPorPrecio(
+                  entorno.inventario,
+                  true
+                );
+                const ordenadoAscendente = ascendente.every(
+                  (p, i) => i === 0 || p.precio >= ascendente[i - 1].precio
+                );
+
+                // Probar ordenamiento descendente
+                const descendente = entorno.ordenarPorPrecio(
+                  entorno.inventario,
+                  false
+                );
+                const ordenadoDescendente = descendente.every(
+                  (p, i) => i === 0 || p.precio <= descendente[i - 1].precio
+                );
+
+                return ordenadoAscendente && ordenadoDescendente;
+              },
+            },
+          ];
+
+          // Ejecutar pruebas
+          let todasPasaron = true;
+          pruebas.forEach((prueba) => {
+            let resultado;
+            try {
+              resultado = prueba.prueba();
+            } catch (error) {
+              resultado = false;
+              console.error(`Error en prueba "${prueba.nombre}":`, error);
+            }
+
+            const elementoPrueba = document.createElement("p");
+            elementoPrueba.className = resultado ? "test-pass" : "test-fail";
+            elementoPrueba.textContent = `${resultado ? "✓" : "✗"} ${
+              prueba.nombre
+            }`;
+            resultadosDiv.appendChild(elementoPrueba);
+
+            if (!resultado) todasPasaron = false;
+          });
+
+          // Mensaje final
+          const mensajeFinal = document.createElement("p");
+          mensajeFinal.style.fontWeight = "bold";
+          mensajeFinal.style.marginTop = "15px";
+          if (todasPasaron) {
+            mensajeFinal.className = "test-pass";
+            mensajeFinal.textContent =
+              "¡Felicidades! Has completado correctamente el ejercicio.";
+
+            // Notificar al índice que este ejercicio se ha completado
+            try {
+              window.parent.postMessage(
+                {
+                  tipo: "ejercicioCompletado",
+                  ejercicioId: "09-mixtos/01-tienda-virtual",
+                },
+                "*"
+              );
+              // También guardar en localStorage como respaldo
+              localStorage.setItem(
+                "ejercicio_09-mixtos/01-tienda-virtual",
+                "completado"
+              );
+            } catch (e) {
+              console.log("No se pudo notificar al índice", e);
+            }
+          } else {
+            mensajeFinal.className = "test-fail";
+            mensajeFinal.textContent =
+              "Hay errores en tu solución. Revisa las pruebas fallidas e intenta de nuevo.";
+
+            // Añadir botón para mostrar la solución
+            const botonSolucion = document.createElement("button");
+            botonSolucion.textContent = "Ver solución";
+            botonSolucion.style.marginTop = "15px";
+            botonSolucion.style.backgroundColor = "#6c757d";
+            botonSolucion.onclick = mostrarSolucion;
+            resultadosDiv.appendChild(botonSolucion);
+          }
+          resultadosDiv.appendChild(mensajeFinal);
+        } catch (error) {
+          // Mostrar error de sintaxis
+          const errorElement = document.createElement("p");
+          errorElement.className = "test-fail";
+          errorElement.textContent = `Error: ${error.message}`;
+          resultadosDiv.appendChild(errorElement);
+
+          // Añadir botón para mostrar la solución en caso de error
+          const botonSolucion = document.createElement("button");
+          botonSolucion.textContent = "Ver solución";
+          botonSolucion.style.marginTop = "15px";
+          botonSolucion.style.backgroundColor = "#6c757d";
+          botonSolucion.onclick = mostrarSolucion;
+          resultadosDiv.appendChild(botonSolucion);
+        }
+      }
+
+      // Función para mostrar la solución
+      function mostrarSolucion() {
+        const resultadosDiv = document.getElementById("resultados");
+
+        // Crear contenedor para la solución
+        const solucionDiv = document.createElement("div");
+        solucionDiv.style.marginTop = "20px";
+        solucionDiv.style.padding = "15px";
+        solucionDiv.style.backgroundColor = "#f8f9fa";
+        solucionDiv.style.border = "1px solid #e9ecef";
+        solucionDiv.style.borderRadius = "4px";
+
+        // Título de la solución
+        const tituloSolucion = document.createElement("h3");
+        tituloSolucion.textContent = "Solución propuesta";
+        solucionDiv.appendChild(tituloSolucion);
+
+        // Código de la solución
+        const codigoSolucion = document.createElement("pre");
+        codigoSolucion.style.backgroundColor = "#f1f1f1";
+        codigoSolucion.style.padding = "10px";
+        codigoSolucion.style.borderRadius = "4px";
+        codigoSolucion.style.overflow = "auto";
+
+        const codigo = document.createElement("code");
+        codigo.textContent = `// Definición de la clase Producto
+class Producto {
+  constructor(id, nombre, precio, stock) {
+    this.id = id;
+    this.nombre = nombre;
+    this.precio = precio;
+    this.stock = stock;
+  }
+  
+  actualizarStock(cantidad) {
+    if (this.stock >= cantidad) {
+      this.stock -= cantidad;
+      return true;
+    }
+    return false;
+  }
+  
+  obtenerInfo() {
+    return \`\${this.nombre} - Precio: \${this.precio}€ - Stock: \${this.stock}\`;
+  }
+}
+
+// Definición de la clase Carrito
+class Carrito {
+  constructor() {
+    this.items = [];
+  }
+  
+  agregarProducto(producto, cantidad) {
+    if (producto.stock >= cantidad) {
+      // Comprobar si el producto ya está en el carrito
+      const itemExistente = this.items.find(item => item.producto.id === producto.id);
+      
+      if (itemExistente) {
+        itemExistente.cantidad += cantidad;
+      } else {
+        this.items.push({
+          producto: producto,
+          cantidad: cantidad
+        });
+      }
+      
+      producto.actualizarStock(cantidad);
+      return true;
+    }
+    return false;
+  }
+  
+  eliminarProducto(productoId) {
+    const indice = this.items.findIndex(item => item.producto.id === productoId);
+    
+    if (indice !== -1) {
+      // Devolver el stock
+      const item = this.items[indice];
+      item.producto.stock += item.cantidad;
+      
+      // Eliminar del carrito
+      this.items.splice(indice, 1);
+      return true;
+    }
+    return false;
+  }
+  
+  calcularTotal() {
+    return this.items.reduce((total, item) => {
+      return total + (item.producto.precio * item.cantidad);
+    }, 0);
+  }
+  
+  vaciar() {
+    // Devolver el stock de todos los productos
+    this.items.forEach(item => {
+      item.producto.stock += item.cantidad;
+    });
+    
+    this.items = [];
+  }
+  
+  obtenerResumen() {
+    if (this.items.length === 0) {
+      return "El carrito está vacío";
+    }
+    
+    let resumen = "Productos en el carrito:\\n";
+    this.items.forEach(item => {
+      resumen += \`- \${item.producto.nombre} x\${item.cantidad}: \${item.producto.precio * item.cantidad}€\\n\`;
+    });
+    
+    resumen += \`\\nTotal: \${this.calcularTotal()}€\`;
+    return resumen;
+  }
+}
+
+// Crear productos
+const producto1 = new Producto(1, "Laptop", 999.99, 5);
+const producto2 = new Producto(2, "Smartphone", 599.99, 10);
+const producto3 = new Producto(3, "Auriculares", 89.99, 15);
+
+// Crear carrito
+const carrito = new Carrito();
+
+// Agregar productos al carrito
+carrito.agregarProducto(producto1, 1);
+carrito.agregarProducto(producto2, 2);
+carrito.agregarProducto(producto3, 3);
+
+// Obtener resumen del carrito
+const resumenCarrito = carrito.obtenerResumen();
+
+// Calcular total
+const totalCarrito = carrito.calcularTotal();
+
+// Eliminar un producto
+carrito.eliminarProducto(2);
+
+// Vaciar carrito
+carrito.vaciar();`;
+
+        codigoSolucion.appendChild(codigo);
+        solucionDiv.appendChild(codigoSolucion);
+
+        // Explicación de la solución
+        const explicacionTitulo = document.createElement("h3");
+        explicacionTitulo.textContent = "Explicación";
+        solucionDiv.appendChild(explicacionTitulo);
+
+        const explicacion = document.createElement("ul");
+
+        const punto1 = document.createElement("li");
+        punto1.innerHTML =
+          "Creamos una clase <code>Producto</code> con propiedades como id, nombre, precio y stock, y métodos para actualizar el stock y obtener información del producto.";
+        explicacion.appendChild(punto1);
+
+        const punto2 = document.createElement("li");
+        punto2.innerHTML =
+          "Creamos una clase <code>Carrito</code> que gestiona una colección de productos, con métodos para agregar, eliminar, calcular el total y vaciar el carrito.";
+        explicacion.appendChild(punto2);
+
+        const punto3 = document.createElement("li");
+        punto3.innerHTML =
+          "El método <code>agregarProducto</code> verifica si hay suficiente stock antes de añadir un producto al carrito. Si el producto ya está en el carrito, aumenta la cantidad en lugar de añadir un nuevo item.";
+        explicacion.appendChild(punto3);
+
+        const punto4 = document.createElement("li");
+        punto4.innerHTML =
+          "El método <code>eliminarProducto</code> elimina un producto del carrito y devuelve el stock al producto.";
+        explicacion.appendChild(punto4);
+
+        const punto5 = document.createElement("li");
+        punto5.innerHTML =
+          "El método <code>calcularTotal</code> utiliza <code>reduce</code> para sumar el precio total de todos los productos en el carrito.";
+        explicacion.appendChild(punto5);
+
+        const punto6 = document.createElement("li");
+        punto6.innerHTML =
+          "El método <code>vaciar</code> elimina todos los productos del carrito y devuelve el stock a cada producto.";
+        explicacion.appendChild(punto6);
+
+        const punto7 = document.createElement("li");
+        punto7.innerHTML =
+          "El método <code>obtenerResumen</code> genera un resumen formateado de los productos en el carrito y el total.";
+        explicacion.appendChild(punto7);
+
+        const punto8 = document.createElement("li");
+        punto8.innerHTML =
+          "Finalmente, creamos instancias de productos, un carrito, y demostramos el uso de los métodos para agregar productos, obtener el resumen, calcular el total, eliminar un producto y vaciar el carrito.";
+        explicacion.appendChild(punto8);
+
+        solucionDiv.appendChild(explicacion);
+
+        // Botón para aplicar la solución
+        const botonAplicar = document.createElement("button");
+        botonAplicar.textContent = "Aplicar esta solución";
+        botonAplicar.style.marginTop = "15px";
+        botonAplicar.onclick = function () {
+          document.getElementById("codigo").value = codigo.textContent;
+          solucionDiv.remove();
+          ejecutarPruebas();
+        };
+        solucionDiv.appendChild(botonAplicar);
+
+        resultadosDiv.appendChild(solucionDiv);
+      }
+    </script>
+  </body>
+</html>

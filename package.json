@@ -1,0 +1,23 @@
+{
+  "name": "ejercicios-javascript-intro",
+  "version": "1.0.0",
+  "description": "Ejercicios de introducción a JavaScript para el curso Full Stack",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "generate-report": "node scripts/generate-report.js"
+  },
+  "keywords": [
+    "javascript",
+    "ejercicios",
+    "educacion"
+  ],
+  "author": "Nuclio Digital School",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2"
+  }
+}

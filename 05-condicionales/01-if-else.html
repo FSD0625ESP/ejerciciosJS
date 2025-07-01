@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 1: Estructuras Condicionales (if-else)</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      header {
+        background-color: #000;
+        padding: 20px;
+      }
+
+      header img {
+        width: 150px;
+      }
+      h1 {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+      pre {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        padding: 15px;
+        overflow: auto;
+      }
+      code {
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+      .test-results {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .test-pass {
+        color: #28a745;
+      }
+      .test-fail {
+        color: #dc3545;
+      }
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      textarea {
+        width: 100%;
+        height: 200px;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img
+        src="https://nuclio.school/wp-content/uploads/2022/12/NDS_Negative.webp"
+        alt="Nuclio Digital School"
+      />
+    </header>
+    <div style="text-align: right; margin-bottom: 20px">
+      <a href="../index.html" style="color: #3498db; text-decoration: none">
+        <span style="font-size: 14px">&#8592; Volver al índice</span>
+      </a>
+    </div>
+    <h1>Ejercicio 1: Estructuras Condicionales (if-else)</h1>
+
+    <h2>Enunciado</h2>
+    <p>
+      En este ejercicio, practicarás el uso de estructuras condicionales
+      <code>if</code>, <code>else if</code> y <code>else</code> para tomar
+      decisiones en tu código según diferentes condiciones.
+    </p>
+
+    <h3>Instrucciones:</h3>
+    <ol>
+      <li>
+        Crea una función llamada <code>calificarNota</code> que reciba una
+        puntuación numérica (0-100) y devuelva una calificación según la
+        siguiente escala:
+        <ul>
+          <li>90-100: "Sobresaliente"</li>
+          <li>80-89: "Notable"</li>
+          <li>70-79: "Bien"</li>
+          <li>60-69: "Suficiente"</li>
+          <li>0-59: "Insuficiente"</li>
+          <li>
+            Si la nota está fuera del rango 0-100, devuelve "Nota inválida"
+          </li>
+        </ul>
+      </li>
+      <li>
+        Crea una función llamada <code>determinarDiaSemana</code> que reciba un
+        número del 1 al 7 y devuelva el nombre del día de la semana
+        correspondiente (1 para "Lunes", 2 para "Martes", etc.). Si el número
+        está fuera de rango, devuelve "Número inválido".
+      </li>
+      <li>
+        Crea una función llamada <code>puedeConducir</code> que reciba la edad
+        de una persona y un booleano que indique si tiene licencia de conducir.
+        La función debe devolver:
+        <ul>
+          <li>
+            "Puede conducir" si la persona tiene al menos 18 años y tiene
+            licencia.
+          </li>
+          <li>
+            "Necesita licencia" si la persona tiene al menos 18 años pero no
+            tiene licencia.
+          </li>
+          <li>"Demasiado joven" si la persona es menor de 18 años.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h2>Tu código</h2>
+    <textarea id="codigo" placeholder="// Escribe tu código aquí">
+// Escribe tu código debajo de esta línea
+// INICIO
+
+// Tu código aquí
+
+// FIN</textarea
+    >
+    <button onclick="ejecutarPruebas()">Ejecutar pruebas</button>
+
+    <div class="test-results" id="resultados">
+      <p>Los resultados de las pruebas aparecerán aquí.</p>
+    </div>
+
+    <script>
+      function ejecutarPruebas() {
+        // Limpiar resultados anteriores
+        const resultadosDiv = document.getElementById("resultados");
+        resultadosDiv.innerHTML = "";
+
+        // Obtener el código del usuario
+        const codigo = document.getElementById("codigo").value;
+
+        // Crear un entorno aislado para ejecutar el código
+        const entorno = {};
+
+        try {
+          // Enfoque para ejecutar el código del usuario
+          const lines = codigo
+            .split("\n")
+            .filter(
+              (line) =>
+                line.trim() &&
+                !line.trim().startsWith("//") &&
+                line.trim() !== "// INICIO" &&
+                line.trim() !== "// FIN"
+            );
+
+          // Evaluar el código completo para incluir definiciones de funciones
+          const codigoCompleto = lines.join("\n");
+
+          // Usar Function para crear un entorno aislado
+          const funcionAislada = new Function(
+            "entorno",
+            `
+              with(entorno) {
+                ${codigoCompleto}
+                
+                // Exportar las funciones al entorno
+                entorno.calificarNota = typeof calificarNota === 'function' ? calificarNota : undefined;
+                entorno.determinarDiaSemana = typeof determinarDiaSemana === 'function' ? determinarDiaSemana : undefined;
+                entorno.puedeConducir = typeof puedeConducir === 'function' ? puedeConducir : undefined;
+              }
+            `
+          );
+
+          // Ejecutar la función aislada
+          funcionAislada(entorno);
+
+          // Pruebas
+          const pruebas = [
+            {
+              nombre:
+                "La función calificarNota asigna correctamente las calificaciones",
+              prueba: () => {
+                if (typeof entorno.calificarNota !== "function") return false;
+
+                return (
+                  entorno.calificarNota(95) === "Sobresaliente" &&
+                  entorno.calificarNota(85) === "Notable" &&
+                  entorno.calificarNota(75) === "Bien" &&
+                  entorno.calificarNota(65) === "Suficiente" &&
+                  entorno.calificarNota(55) === "Insuficiente" &&
+                  entorno.calificarNota(-10) === "Nota inválida" &&
+                  entorno.calificarNota(110) === "Nota inválida"
+                );
+              },
+            },
+            {
+              nombre:
+                "La función determinarDiaSemana devuelve correctamente el día de la semana",
+              prueba: () => {
+                if (typeof entorno.determinarDiaSemana !== "function")
+                  return false;
+
+                return (
+                  entorno.determinarDiaSemana(1) === "Lunes" &&
+                  entorno.determinarDiaSemana(2) === "Martes" &&
+                  entorno.determinarDiaSemana(3) === "Miércoles" &&
+                  entorno.determinarDiaSemana(4) === "Jueves" &&
+                  entorno.determinarDiaSemana(5) === "Viernes" &&
+                  entorno.determinarDiaSemana(6) === "Sábado" &&
+                  entorno.determinarDiaSemana(7) === "Domingo" &&
+                  entorno.determinarDiaSemana(0) === "Número inválido" &&
+                  entorno.determinarDiaSemana(8) === "Número inválido"
+                );
+              },
+            },
+            {
+              nombre:
+                "La función puedeConducir evalúa correctamente si una persona puede conducir",
+              prueba: () => {
+                if (typeof entorno.puedeConducir !== "function") return false;
+
+                return (
+                  entorno.puedeConducir(20, true) === "Puede conducir" &&
+                  entorno.puedeConducir(18, false) === "Necesita licencia" &&
+                  entorno.puedeConducir(16, true) === "Demasiado joven" &&
+                  entorno.puedeConducir(16, false) === "Demasiado joven"
+                );
+              },
+            },
+          ];
+
+          // Ejecutar pruebas
+          let todasPasaron = true;
+          pruebas.forEach((prueba) => {
+            let resultado;
+            try {
+              resultado = prueba.prueba();
+            } catch (error) {
+              resultado = false;
+            }
+
+            const elementoPrueba = document.createElement("p");
+            elementoPrueba.className = resultado ? "test-pass" : "test-fail";
+            elementoPrueba.textContent = `${resultado ? "✓" : "✗"} ${
+              prueba.nombre
+            }`;
+            resultadosDiv.appendChild(elementoPrueba);
+
+            if (!resultado) todasPasaron = false;
+          });
+
+          // Mensaje final
+          const mensajeFinal = document.createElement("p");
+          mensajeFinal.style.fontWeight = "bold";
+          mensajeFinal.style.marginTop = "15px";
+          if (todasPasaron) {
+            mensajeFinal.className = "test-pass";
+            mensajeFinal.textContent =
+              "¡Felicidades! Has completado correctamente el ejercicio.";
+
+            // Notificar al índice que este ejercicio se ha completado
+            try {
+              window.parent.postMessage(
+                {
+                  tipo: "ejercicioCompletado",
+                  ejercicioId: "04-condicionales/01-if-else",
+                },
+                "*"
+              );
+              // También guardar en localStorage como respaldo
+              localStorage.setItem(
+                "ejercicio_04-condicionales/01-if-else",
+                "completado"
+              );
+            } catch (e) {
+              console.log("No se pudo notificar al índice", e);
+            }
+          } else {
+            mensajeFinal.className = "test-fail";
+            mensajeFinal.textContent =
+              "Hay errores en tu solución. Revisa las pruebas fallidas e intenta de nuevo.";
+
+            // Añadir botón para mostrar la solución
+            const botonSolucion = document.createElement("button");
+            botonSolucion.textContent = "Ver solución";
+            botonSolucion.style.marginTop = "15px";
+            botonSolucion.style.backgroundColor = "#6c757d";
+            botonSolucion.onclick = mostrarSolucion;
+            resultadosDiv.appendChild(botonSolucion);
+          }
+          resultadosDiv.appendChild(mensajeFinal);
+        } catch (error) {
+          // Mostrar error de sintaxis
+          const errorElement = document.createElement("p");
+          errorElement.className = "test-fail";
+          errorElement.textContent = `Error: ${error.message}`;
+          resultadosDiv.appendChild(errorElement);
+
+          // Añadir botón para mostrar la solución en caso de error
+          const botonSolucion = document.createElement("button");
+          botonSolucion.textContent = "Ver solución";
+          botonSolucion.style.marginTop = "15px";
+          botonSolucion.style.backgroundColor = "#6c757d";
+          botonSolucion.onclick = mostrarSolucion;
+          resultadosDiv.appendChild(botonSolucion);
+        }
+      }
+
+      // Función para mostrar la solución
+      function mostrarSolucion() {
+        const resultadosDiv = document.getElementById("resultados");
+
+        // Crear contenedor para la solución
+        const solucionDiv = document.createElement("div");
+        solucionDiv.style.marginTop = "20px";
+        solucionDiv.style.padding = "15px";
+        solucionDiv.style.backgroundColor = "#f8f9fa";
+        solucionDiv.style.border = "1px solid #e9ecef";
+        solucionDiv.style.borderRadius = "4px";
+
+        // Título de la solución
+        const tituloSolucion = document.createElement("h3");
+        tituloSolucion.textContent = "Solución propuesta";
+        solucionDiv.appendChild(tituloSolucion);
+
+        // Código de la solución
+        const codigoSolucion = document.createElement("pre");
+        codigoSolucion.style.backgroundColor = "#f1f1f1";
+        codigoSolucion.style.padding = "10px";
+        codigoSolucion.style.borderRadius = "4px";
+        codigoSolucion.style.overflow = "auto";
+
+        const codigo = document.createElement("code");
+        codigo.textContent = `// Declaración de variables
+let edad = 20;
+let tieneCarnet = true;
+
+// Condicional simple
+let puedeConducir;
+if (edad >= 18 && tieneCarnet) {
+  puedeConducir = true;
+} else {
+  puedeConducir = false;
+}
+
+// Condicional múltiple
+let mensaje;
+if (edad < 18) {
+  mensaje = "Eres menor de edad";
+} else if (edad >= 18 && edad < 65) {
+  mensaje = "Eres adulto";
+} else {
+  mensaje = "Eres jubilado";
+}
+
+// Condicional ternario
+let estadoCivil = "soltero";
+let tienePareja = estadoCivil === "casado" ? true : false;`;
+
+        codigoSolucion.appendChild(codigo);
+        solucionDiv.appendChild(codigoSolucion);
+
+        // Explicación de la solución
+        const explicacionTitulo = document.createElement("h3");
+        explicacionTitulo.textContent = "Explicación";
+        solucionDiv.appendChild(explicacionTitulo);
+
+        const explicacion = document.createElement("ul");
+
+        const punto1 = document.createElement("li");
+        punto1.innerHTML =
+          "Declaramos las variables iniciales: <code>edad</code> y <code>tieneCarnet</code>.";
+        explicacion.appendChild(punto1);
+
+        const punto2 = document.createElement("li");
+        punto2.innerHTML =
+          "En el primer condicional, usamos <code>if</code> para verificar si la persona puede conducir (ser mayor de edad Y tener carnet). Si se cumple la condición, asignamos <code>true</code> a <code>puedeConducir</code>, de lo contrario, asignamos <code>false</code>.";
+        explicacion.appendChild(punto2);
+
+        const punto3 = document.createElement("li");
+        punto3.innerHTML =
+          "En el segundo condicional, usamos <code>if</code>, <code>else if</code> y <code>else</code> para determinar un mensaje según la edad: menor de edad, adulto o jubilado.";
+        explicacion.appendChild(punto3);
+
+        const punto4 = document.createElement("li");
+        punto4.innerHTML =
+          "En el tercer ejemplo, usamos el operador ternario <code>?:</code> para asignar un valor a <code>tienePareja</code> basado en la condición <code>estadoCivil === 'casado'</code>. Es una forma abreviada de escribir un <code>if-else</code>.";
+        explicacion.appendChild(punto4);
+
+        solucionDiv.appendChild(explicacion);
+
+        // Botón para aplicar la solución
+        const botonAplicar = document.createElement("button");
+        botonAplicar.textContent = "Aplicar esta solución";
+        botonAplicar.style.marginTop = "15px";
+        botonAplicar.onclick = function () {
+          document.getElementById("codigo").value = codigo.textContent;
+          solucionDiv.remove();
+          ejecutarPruebas();
+        };
+        solucionDiv.appendChild(botonAplicar);
+
+        resultadosDiv.appendChild(solucionDiv);
+      }
+    </script>
+  </body>
+</html>

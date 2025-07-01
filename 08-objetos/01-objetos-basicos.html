@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 1: Objetos Básicos</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      header {
+        background-color: #000;
+        padding: 20px;
+      }
+
+      header img {
+        width: 150px;
+      }
+      h1 {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+      pre {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        padding: 15px;
+        overflow: auto;
+      }
+      code {
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+      .test-results {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .test-pass {
+        color: #28a745;
+      }
+      .test-fail {
+        color: #dc3545;
+      }
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      textarea {
+        width: 100%;
+        height: 200px;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img
+        src="https://nuclio.school/wp-content/uploads/2022/12/NDS_Negative.webp"
+        alt="Nuclio Digital School"
+      />
+    </header>
+    <div style="text-align: right; margin-bottom: 20px">
+      <a href="../index.html" style="color: #3498db; text-decoration: none">
+        <span style="font-size: 14px">&#8592; Volver al índice</span>
+      </a>
+    </div>
+    <h1>Ejercicio 1: Objetos Básicos</h1>
+
+    <h2>Enunciado</h2>
+    <p>
+      En este ejercicio, practicarás la creación y manipulación de objetos en
+      JavaScript, incluyendo propiedades, métodos y diferentes formas de acceder
+      a ellos.
+    </p>
+
+    <h3>Instrucciones:</h3>
+    <ol>
+      <li>
+        Crea un objeto llamado <code>persona</code> con las siguientes
+        propiedades:
+        <ul>
+          <li><code>nombre</code>: Tu nombre</li>
+          <li><code>edad</code>: Tu edad</li>
+          <li><code>profesion</code>: Tu profesión</li>
+          <li><code>hobbies</code>: Un array con al menos tres hobbies</li>
+        </ul>
+      </li>
+      <li>
+        Añade un método llamado <code>presentarse</code> al objeto
+        <code>persona</code> que devuelva una cadena de texto con el formato:
+        "Hola, me llamo [nombre], tengo [edad] años y soy [profesion]. Me gusta
+        [hobbies separados por comas]."
+      </li>
+      <li>
+        Crea una función llamada <code>agregarHobby</code> que reciba un objeto
+        persona y un nuevo hobby como parámetros, y añada el hobby al array de
+        hobbies de la persona.
+      </li>
+      <li>
+        Crea una función llamada <code>esMayorQue</code> que reciba dos objetos
+        persona como parámetros y devuelva <code>true</code> si la primera
+        persona es mayor que la segunda, o <code>false</code> en caso contrario.
+      </li>
+    </ol>
+
+    <h2>Tu código</h2>
+    <textarea id="codigo" placeholder="// Escribe tu código aquí">
+// Escribe tu código debajo de esta línea
+// INICIO
+
+// Tu código aquí
+
+// FIN</textarea
+    >
+    <button onclick="ejecutarPruebas()">Ejecutar pruebas</button>
+
+    <div class="test-results" id="resultados">
+      <p>Los resultados de las pruebas aparecerán aquí.</p>
+    </div>
+
+    <script>
+      function ejecutarPruebas() {
+        // Limpiar resultados anteriores
+        const resultadosDiv = document.getElementById("resultados");
+        resultadosDiv.innerHTML = "";
+
+        // Obtener el código del usuario
+        const codigo = document.getElementById("codigo").value;
+
+        // Crear un entorno aislado para ejecutar el código
+        const entorno = {};
+
+        try {
+          // Enfoque para ejecutar el código del usuario
+          const lines = codigo
+            .split("\n")
+            .filter(
+              (line) =>
+                line.trim() &&
+                !line.trim().startsWith("//") &&
+                line.trim() !== "// INICIO" &&
+                line.trim() !== "// FIN"
+            );
+
+          // Evaluar el código completo para incluir definiciones de funciones
+          const codigoCompleto = lines.join("\n");
+
+          // Usar Function para crear un entorno aislado
+          const funcionAislada = new Function(
+            "entorno",
+            `
+              with(entorno) {
+                ${codigoCompleto}
+                
+                // Exportar las variables y funciones al entorno
+                entorno.persona = typeof persona === 'object' ? persona : undefined;
+                entorno.agregarHobby = typeof agregarHobby === 'function' ? agregarHobby : undefined;
+                entorno.esMayorQue = typeof esMayorQue === 'function' ? esMayorQue : undefined;
+              }
+            `
+          );
+
+          // Ejecutar la función aislada
+          funcionAislada(entorno);
+
+          // Pruebas
+          const pruebas = [
+            {
+              nombre:
+                "El objeto persona tiene todas las propiedades requeridas",
+              prueba: () => {
+                if (!entorno.persona || typeof entorno.persona !== "object")
+                  return false;
+
+                return (
+                  typeof entorno.persona.nombre === "string" &&
+                  entorno.persona.nombre.length > 0 &&
+                  typeof entorno.persona.edad === "number" &&
+                  typeof entorno.persona.profesion === "string" &&
+                  Array.isArray(entorno.persona.hobbies) &&
+                  entorno.persona.hobbies.length >= 3
+                );
+              },
+            },
+            {
+              nombre:
+                "El método presentarse devuelve la cadena de texto correcta",
+              prueba: () => {
+                if (
+                  !entorno.persona ||
+                  typeof entorno.persona !== "object" ||
+                  typeof entorno.persona.presentarse !== "function"
+                )
+                  return false;
+
+                const presentacion = entorno.persona.presentarse();
+
+                return (
+                  typeof presentacion === "string" &&
+                  presentacion.includes(entorno.persona.nombre) &&
+                  presentacion.includes(entorno.persona.edad.toString()) &&
+                  presentacion.includes(entorno.persona.profesion) &&
+                  entorno.persona.hobbies.every((hobby) =>
+                    presentacion.includes(hobby)
+                  )
+                );
+              },
+            },
+            {
+              nombre:
+                "La función agregarHobby añade correctamente un nuevo hobby",
+              prueba: () => {
+                if (typeof entorno.agregarHobby !== "function") return false;
+
+                // Crear una copia del objeto persona para no modificar el original
+                const personaCopia = JSON.parse(
+                  JSON.stringify(entorno.persona)
+                );
+                const hobbiesAntes = personaCopia.hobbies.length;
+                const nuevoHobby = "programar en JavaScript";
+
+                // Asegurarse de que el nuevo hobby no existe ya
+                if (personaCopia.hobbies.includes(nuevoHobby)) {
+                  personaCopia.hobbies = personaCopia.hobbies.filter(
+                    (h) => h !== nuevoHobby
+                  );
+                }
+
+                entorno.agregarHobby(personaCopia, nuevoHobby);
+
+                return (
+                  personaCopia.hobbies.length === hobbiesAntes + 1 &&
+                  personaCopia.hobbies.includes(nuevoHobby)
+                );
+              },
+            },
+            {
+              nombre:
+                "La función esMayorQue compara correctamente las edades de dos personas",
+              prueba: () => {
+                if (typeof entorno.esMayorQue !== "function") return false;
+
+                const persona1 = { nombre: "Ana", edad: 30 };
+                const persona2 = { nombre: "Juan", edad: 25 };
+                const persona3 = { nombre: "María", edad: 30 };
+
+                return (
+                  entorno.esMayorQue(persona1, persona2) === true &&
+                  entorno.esMayorQue(persona2, persona1) === false &&
+                  entorno.esMayorQue(persona1, persona3) === false
+                );
+              },
+            },
+          ];
+
+          // Ejecutar pruebas
+          let todasPasaron = true;
+          pruebas.forEach((prueba) => {
+            let resultado;
+            try {
+              resultado = prueba.prueba();
+            } catch (error) {
+              resultado = false;
+            }
+
+            const elementoPrueba = document.createElement("p");
+            elementoPrueba.className = resultado ? "test-pass" : "test-fail";
+            elementoPrueba.textContent = `${resultado ? "✓" : "✗"} ${
+              prueba.nombre
+            }`;
+            resultadosDiv.appendChild(elementoPrueba);
+
+            if (!resultado) todasPasaron = false;
+          });
+
+          // Mensaje final
+          const mensajeFinal = document.createElement("p");
+          mensajeFinal.style.fontWeight = "bold";
+          mensajeFinal.style.marginTop = "15px";
+          if (todasPasaron) {
+            mensajeFinal.className = "test-pass";
+            mensajeFinal.textContent =
+              "¡Felicidades! Has completado correctamente el ejercicio.";
+
+            // Notificar al índice que este ejercicio se ha completado
+            try {
+              window.parent.postMessage(
+                {
+                  tipo: "ejercicioCompletado",
+                  ejercicioId: "08-objetos/01-objetos-basicos",
+                },
+                "*"
+              );
+              // También guardar en localStorage como respaldo
+              localStorage.setItem(
+                "ejercicio_08-objetos/01-objetos-basicos",
+                "completado"
+              );
+            } catch (e) {
+              console.log("No se pudo notificar al índice", e);
+            }
+          } else {
+            mensajeFinal.className = "test-fail";
+            mensajeFinal.textContent =
+              "Hay errores en tu solución. Revisa las pruebas fallidas e intenta de nuevo.";
+
+            // Añadir botón para mostrar la solución
+            const botonSolucion = document.createElement("button");
+            botonSolucion.textContent = "Ver solución";
+            botonSolucion.style.marginTop = "15px";
+            botonSolucion.style.backgroundColor = "#6c757d";
+            botonSolucion.onclick = mostrarSolucion;
+            resultadosDiv.appendChild(botonSolucion);
+          }
+          resultadosDiv.appendChild(mensajeFinal);
+        } catch (error) {
+          // Mostrar error de sintaxis
+          const errorElement = document.createElement("p");
+          errorElement.className = "test-fail";
+          errorElement.textContent = `Error: ${error.message}`;
+          resultadosDiv.appendChild(errorElement);
+
+          // Añadir botón para mostrar la solución en caso de error
+          const botonSolucion = document.createElement("button");
+          botonSolucion.textContent = "Ver solución";
+          botonSolucion.style.marginTop = "15px";
+          botonSolucion.style.backgroundColor = "#6c757d";
+          botonSolucion.onclick = mostrarSolucion;
+          resultadosDiv.appendChild(botonSolucion);
+        }
+      }
+
+      // Función para mostrar la solución
+      function mostrarSolucion() {
+        const resultadosDiv = document.getElementById("resultados");
+
+        // Crear contenedor para la solución
+        const solucionDiv = document.createElement("div");
+        solucionDiv.style.marginTop = "20px";
+        solucionDiv.style.padding = "15px";
+        solucionDiv.style.backgroundColor = "#f8f9fa";
+        solucionDiv.style.border = "1px solid #e9ecef";
+        solucionDiv.style.borderRadius = "4px";
+
+        // Título de la solución
+        const tituloSolucion = document.createElement("h3");
+        tituloSolucion.textContent = "Solución propuesta";
+        solucionDiv.appendChild(tituloSolucion);
+
+        // Código de la solución
+        const codigoSolucion = document.createElement("pre");
+        codigoSolucion.style.backgroundColor = "#f1f1f1";
+        codigoSolucion.style.padding = "10px";
+        codigoSolucion.style.borderRadius = "4px";
+        codigoSolucion.style.overflow = "auto";
+
+        const codigo = document.createElement("code");
+        codigo.textContent = `// Definición del objeto persona
+let persona = {
+  nombre: "Juan",
+  edad: 30,
+  profesion: "Desarrollador",
+  hobbies: ["programar", "leer", "viajar"],
+  direccion: {
+    calle: "Calle Principal",
+    numero: 123,
+    ciudad: "Madrid",
+    pais: "España"
+  },
+  esMayorDeEdad: function() {
+    return this.edad >= 18;
+  },
+  presentarse: function() {
+    return "Hola, me llamo " + this.nombre + " y soy " + this.profesion;
+  }
+};
+
+// Acceso a propiedades
+let nombrePersona = persona.nombre;
+let ciudadPersona = persona.direccion.ciudad;
+
+// Modificación de propiedades
+persona.edad = 31;
+persona.hobbies.push("cocinar");
+
+// Añadir nuevas propiedades
+persona.email = "juan@ejemplo.com";
+
+// Eliminar propiedades
+delete persona.profesion;
+
+// Comprobar si una propiedad existe
+let tieneEmail = "email" in persona;
+
+// Recorrer propiedades
+let propiedades = [];
+for (let propiedad in persona) {
+  if (typeof persona[propiedad] !== "function") {
+    propiedades.push(propiedad);
+  }
+}`;
+
+        codigoSolucion.appendChild(codigo);
+        solucionDiv.appendChild(codigoSolucion);
+
+        // Explicación de la solución
+        const explicacionTitulo = document.createElement("h3");
+        explicacionTitulo.textContent = "Explicación";
+        solucionDiv.appendChild(explicacionTitulo);
+
+        const explicacion = document.createElement("ul");
+
+        const punto1 = document.createElement("li");
+        punto1.innerHTML =
+          "Definimos un objeto <code>persona</code> con diferentes tipos de propiedades: strings, números, arrays, objetos anidados y métodos (funciones).";
+        explicacion.appendChild(punto1);
+
+        const punto2 = document.createElement("li");
+        punto2.innerHTML =
+          "Accedemos a las propiedades usando la notación de punto (<code>persona.nombre</code>) o para propiedades anidadas (<code>persona.direccion.ciudad</code>).";
+        explicacion.appendChild(punto2);
+
+        const punto3 = document.createElement("li");
+        punto3.innerHTML =
+          "Modificamos propiedades existentes asignando nuevos valores, incluyendo la modificación de un array dentro del objeto usando <code>push</code>.";
+        explicacion.appendChild(punto3);
+
+        const punto4 = document.createElement("li");
+        punto4.innerHTML =
+          "Añadimos una nueva propiedad <code>email</code> simplemente asignándole un valor.";
+        explicacion.appendChild(punto4);
+
+        const punto5 = document.createElement("li");
+        punto5.innerHTML =
+          "Eliminamos la propiedad <code>profesion</code> usando el operador <code>delete</code>.";
+        explicacion.appendChild(punto5);
+
+        const punto6 = document.createElement("li");
+        punto6.innerHTML =
+          "Verificamos si una propiedad existe en el objeto usando el operador <code>in</code>.";
+        explicacion.appendChild(punto6);
+
+        const punto7 = document.createElement("li");
+        punto7.innerHTML =
+          "Recorremos todas las propiedades del objeto usando un bucle <code>for...in</code> y filtramos para no incluir los métodos.";
+        explicacion.appendChild(punto7);
+
+        const punto8 = document.createElement("li");
+        punto8.innerHTML =
+          "Los métodos <code>esMayorDeEdad</code> y <code>presentarse</code> utilizan <code>this</code> para acceder a las propiedades del objeto desde dentro del método.";
+        explicacion.appendChild(punto8);
+
+        solucionDiv.appendChild(explicacion);
+
+        // Botón para aplicar la solución
+        const botonAplicar = document.createElement("button");
+        botonAplicar.textContent = "Aplicar esta solución";
+        botonAplicar.style.marginTop = "15px";
+        botonAplicar.onclick = function () {
+          document.getElementById("codigo").value = codigo.textContent;
+          solucionDiv.remove();
+          ejecutarPruebas();
+        };
+        solucionDiv.appendChild(botonAplicar);
+
+        resultadosDiv.appendChild(solucionDiv);
+      }
+    </script>
+  </body>
+</html>

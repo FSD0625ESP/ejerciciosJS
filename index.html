@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Precurso JavaScript - Nuclio Digital School</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      header {
+        background-color: #000;
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+
+      header img {
+        width: 150px;
+      }
+
+      h1 {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+        margin-top: 30px;
+      }
+
+      h2 {
+        color: #2980b9;
+        margin-top: 25px;
+      }
+
+      .ejercicio-grupo {
+        margin-bottom: 30px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .ejercicio {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+      }
+
+      .ejercicio:hover {
+        background-color: #e9ecef;
+      }
+
+      a {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      a:hover {
+        text-decoration: underline;
+        color: #2980b9;
+      }
+
+      .descripcion {
+        margin-top: 5px;
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      footer {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #e9ecef;
+        text-align: center;
+        font-size: 0.9em;
+        color: #666;
+      }
+
+      .progreso {
+        margin-top: 30px;
+        background-color: #e9ecef;
+        height: 10px;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+
+      .barra-progreso {
+        width: 0%;
+        height: 100%;
+        background-color: #3498db;
+        transition: width 0.5s;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img
+        src="https://nuclio.school/wp-content/uploads/2022/12/NDS_Negative.webp"
+        alt="Nuclio Digital School"
+      />
+    </header>
+
+    <h1>Precurso JavaScript</h1>
+    <p>
+      Bienvenido/a al precurso de JavaScript de Nuclio Digital School. En esta
+      página encontrarás todos los ejercicios organizados por temas. Cada
+      ejercicio incluye instrucciones detalladas y pruebas automáticas para
+      verificar tu solución.
+    </p>
+
+    <div class="progreso">
+      <div class="barra-progreso" id="barraProgreso"></div>
+    </div>
+    <p
+      id="estadisticasProgreso"
+      style="text-align: center; font-size: 0.9em; color: #666"
+    >
+      0 de 9 ejercicios completados (0%)
+    </p>
+
+    <div class="ejercicio-grupo">
+      <h2>1. Variables</h2>
+      <div class="ejercicio">
+        <a href="01-variables/01-declaracion-variables.html"
+          >Ejercicio 1: Declaración de Variables</a
+        >
+        <p class="descripcion">
+          Aprende a declarar y utilizar variables en JavaScript con diferentes
+          tipos de datos.
+        </p>
+      </div>
+    </div>
+
+    <div class="ejercicio-grupo">
+      <h2>2. Funciones</h2>
+      <div class="ejercicio">
+        <a href="02-funciones/01-funciones-basicas.html"
+          >Ejercicio 1: Funciones Básicas</a
+        >
+        <p class="descripcion">
+          Practica la creación y uso de funciones con diferentes formas de
+          declaración.
+        </p>
+      </div>
+    </div>
+
+    <div class="ejercicio-grupo">
+      <h2>3. Operadores</h2>
+      <div class="ejercicio">
+        <a href="03-operadores/01-operadores-aritmeticos.html"
+          >Ejercicio 1: Operadores Aritméticos</a
+        >
+        <p class="descripcion">
+          Practica el uso de operadores aritméticos para realizar cálculos
+          matemáticos.
+        </p>
+      </div>
+    </div>
+
+    <div class="ejercicio-grupo">
+      <h2>4. Comparadores</h2>
+      <div class="ejercicio">
+        <a href="04-comparadores/01-operadores-comparacion.html"
+          >Ejercicio 1: Operadores de Comparación</a
+        >
+        <p class="descripcion">
+          Aprende a comparar valores utilizando operadores de comparación.
+        </p>
+      </div>
+    </div>
+
+    <div class="ejercicio-grupo">
+      <h2>5. Condicionales</h2>
+      <div class="ejercicio">
+        <a href="05-condicionales/01-if-else.html"
+          >Ejercicio 1: Estructuras Condicionales (if-else)</a
+        >
+        <p class="descripcion">
+          Practica el uso de estructuras condicionales para tomar decisiones en
+          tu código.
+        </p>
+      </div>
+    </div>
+
+    <div class="ejercicio-grupo">
+      <h2>6. Bucles</h2>
+      <div class="ejercicio">
+        <a href="06-bucles/01-bucle-for.html">Ejercicio 1: Bucles For</a>
+        <p class="descripcion">
+          Aprende a utilizar bucles for para repetir operaciones y procesar
+          datos.
+        </p>
+      </div>
+    </div>
+
+    <div class="ejercicio-grupo">
+      <h2>7. Arrays</h2>
+      <div class="ejercicio">
+        <a href="07-arrays/01-manipulacion-arrays.html"
+          >Ejercicio 1: Manipulación de Arrays</a
+        >
+        <p class="descripcion">
+          Practica la creación y manipulación de arrays con diferentes métodos.
+        </p>
+      </div>
+    </div>
+
+    <div class="ejercicio-grupo">
+      <h2>8. Objetos</h2>
+      <div class="ejercicio">
+        <a href="08-objetos/01-objetos-basicos.html"
+          >Ejercicio 1: Objetos Básicos</a
+        >
+        <p class="descripcion">
+          Aprende a trabajar con objetos, propiedades y métodos en JavaScript.
+        </p>
+      </div>
+    </div>
+
+    <div class="ejercicio-grupo">
+      <h2>9. Ejercicios Mixtos</h2>
+      <div class="ejercicio">
+        <a href="09-mixtos/01-tienda-virtual.html"
+          >Ejercicio 1: Tienda Virtual</a
+        >
+        <p class="descripcion">
+          Aplica todos los conceptos aprendidos para crear una tienda virtual
+          simple.
+        </p>
+      </div>
+    </div>
+
+    <footer>
+      <p>2025 Nuclio Digital School - Precurso JavaScript</p>
+    </footer>
+
+    <script>
+      // Función para verificar si un ejercicio está completado
+      function verificarEjercicioCompletado(ejercicioId) {
+        return (
+          localStorage.getItem("ejercicio_" + ejercicioId) === "completado"
+        );
+      }
+
+      // Función para marcar visualmente los ejercicios completados
+      function marcarEjerciciosCompletados() {
+        const ejercicios = [
+          "01-variables/01-declaracion-variables",
+          "02-funciones/01-funciones-basicas",
+          "03-operadores/01-operadores-aritmeticos",
+          "04-comparadores/01-operadores-comparacion",
+          "05-condicionales/01-if-else",
+          "06-bucles/01-bucle-for",
+          "07-arrays/01-manipulacion-arrays",
+          "08-objetos/01-objetos-basicos",
+          "09-mixtos/01-tienda-virtual",
+        ];
+
+        let completados = 0;
+
+        ejercicios.forEach((ejercicioId) => {
+          if (verificarEjercicioCompletado(ejercicioId)) {
+            completados++;
+            // Encuentra el enlace correspondiente y añade un indicador visual
+            const enlace = document.querySelector(
+              `a[href="${ejercicioId}.html"]`
+            );
+            if (enlace) {
+              enlace.innerHTML += " ";
+              enlace.style.color = "#28a745";
+              enlace.parentElement.style.borderLeft = "3px solid #28a745";
+              enlace.parentElement.style.paddingLeft = "10px";
+            }
+          }
+        });
+
+        // Actualizar la barra de progreso
+        const porcentaje = (completados / ejercicios.length) * 100;
+        document.getElementById("barraProgreso").style.width = porcentaje + "%";
+        document.getElementById(
+          "estadisticasProgreso"
+        ).textContent = `${completados} de ${
+          ejercicios.length
+        } ejercicios completados (${Math.round(porcentaje)}%)`;
+      }
+
+      // Ejecutar al cargar la página
+      window.addEventListener("load", marcarEjerciciosCompletados);
+
+      // Escuchar mensajes de las páginas de ejercicios
+      window.addEventListener("message", function (event) {
+        if (event.data && event.data.tipo === "ejercicioCompletado") {
+          localStorage.setItem(
+            "ejercicio_" + event.data.ejercicioId,
+            "completado"
+          );
+          marcarEjerciciosCompletados();
+        }
+      });
+    </script>
+  </body>
+</html>

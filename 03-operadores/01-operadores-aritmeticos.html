@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 1: Operadores Aritméticos</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      header {
+        background-color: #000;
+        padding: 20px;
+      }
+
+      header img {
+        width: 150px;
+      }
+      h1 {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+      pre {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        padding: 15px;
+        overflow: auto;
+      }
+      code {
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+      .test-results {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .test-pass {
+        color: #28a745;
+      }
+      .test-fail {
+        color: #dc3545;
+      }
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      textarea {
+        width: 100%;
+        height: 200px;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img
+        src="https://nuclio.school/wp-content/uploads/2022/12/NDS_Negative.webp"
+        alt="Nuclio Digital School"
+      />
+    </header>
+    <div style="text-align: right; margin-bottom: 20px">
+      <a href="../index.html" style="color: #3498db; text-decoration: none">
+        <span style="font-size: 14px">&#8592; Volver al índice</span>
+      </a>
+    </div>
+    <h1>Ejercicio 1: Operadores Aritméticos</h1>
+
+    <h2>Enunciado</h2>
+    <p>
+      En este ejercicio, practicarás el uso de operadores aritméticos en
+      JavaScript para realizar cálculos matemáticos básicos.
+    </p>
+
+    <h3>Instrucciones:</h3>
+    <ol>
+      <li>
+        Crea una función llamada <code>calcularArea</code> que reciba el largo y
+        ancho de un rectángulo como parámetros y devuelva su área.
+      </li>
+      <li>
+        Crea una función llamada <code>calcularPerimetro</code> que reciba el
+        largo y ancho de un rectángulo como parámetros y devuelva su perímetro.
+      </li>
+      <li>
+        Crea una función llamada <code>calcularCircunferencia</code> que reciba
+        el radio de un círculo como parámetro y devuelva su circunferencia (2 *
+        π * radio).
+      </li>
+      <li>
+        Crea una función llamada <code>celsiusAFahrenheit</code> que convierta
+        una temperatura en grados Celsius a Fahrenheit usando la fórmula: F = C
+        * 9/5 + 32.
+      </li>
+    </ol>
+
+    <h2>Tu código</h2>
+    <textarea id="codigo" placeholder="// Escribe tu código aquí">
+// Escribe tu código debajo de esta línea
+// INICIO
+
+// Tu código aquí
+
+// FIN</textarea
+    >
+    <button onclick="ejecutarPruebas()">Ejecutar pruebas</button>
+
+    <div class="test-results" id="resultados">
+      <p>Los resultados de las pruebas aparecerán aquí.</p>
+    </div>
+
+    <script>
+      function ejecutarPruebas() {
+        // Limpiar resultados anteriores
+        const resultadosDiv = document.getElementById("resultados");
+        resultadosDiv.innerHTML = "";
+
+        // Obtener el código del usuario
+        const codigo = document.getElementById("codigo").value;
+
+        // Crear un entorno aislado para ejecutar el código
+        const entorno = {};
+
+        try {
+          // Enfoque para ejecutar el código del usuario
+          const lines = codigo
+            .split("\n")
+            .filter(
+              (line) =>
+                line.trim() &&
+                !line.trim().startsWith("//") &&
+                line.trim() !== "// INICIO" &&
+                line.trim() !== "// FIN"
+            );
+
+          // Evaluar el código completo para incluir definiciones de funciones
+          const codigoCompleto = lines.join("\n");
+
+          // Usar Function para crear un entorno aislado
+          const funcionAislada = new Function(
+            "entorno",
+            `
+              with(entorno) {
+                ${codigoCompleto}
+                
+                // Exportar las funciones al entorno
+                entorno.calcularArea = typeof calcularArea === 'function' ? calcularArea : undefined;
+                entorno.calcularPerimetro = typeof calcularPerimetro === 'function' ? calcularPerimetro : undefined;
+                entorno.calcularCircunferencia = typeof calcularCircunferencia === 'function' ? calcularCircunferencia : undefined;
+                entorno.celsiusAFahrenheit = typeof celsiusAFahrenheit === 'function' ? celsiusAFahrenheit : undefined;
+              }
+            `
+          );
+
+          // Ejecutar la función aislada
+          funcionAislada(entorno);
+
+          // Pruebas
+          const pruebas = [
+            {
+              nombre:
+                "La función calcularArea calcula correctamente el área de un rectángulo",
+              prueba: () => {
+                if (typeof entorno.calcularArea !== "function") return false;
+                return (
+                  entorno.calcularArea(5, 4) === 20 &&
+                  entorno.calcularArea(3, 7) === 21 &&
+                  entorno.calcularArea(2, 2) === 4
+                );
+              },
+            },
+            {
+              nombre:
+                "La función calcularPerimetro calcula correctamente el perímetro de un rectángulo",
+              prueba: () => {
+                if (typeof entorno.calcularPerimetro !== "function")
+                  return false;
+                return (
+                  entorno.calcularPerimetro(5, 4) === 18 &&
+                  entorno.calcularPerimetro(3, 7) === 20 &&
+                  entorno.calcularPerimetro(2, 2) === 8
+                );
+              },
+            },
+            {
+              nombre:
+                "La función calcularCircunferencia calcula correctamente la circunferencia de un círculo",
+              prueba: () => {
+                if (typeof entorno.calcularCircunferencia !== "function")
+                  return false;
+                const resultados = [
+                  Math.abs(
+                    entorno.calcularCircunferencia(5) - 2 * Math.PI * 5
+                  ) < 0.001,
+                  Math.abs(
+                    entorno.calcularCircunferencia(3) - 2 * Math.PI * 3
+                  ) < 0.001,
+                  Math.abs(entorno.calcularCircunferencia(1) - 2 * Math.PI) <
+                    0.001,
+                ];
+                return resultados.every((r) => r === true);
+              },
+            },
+            {
+              nombre:
+                "La función celsiusAFahrenheit convierte correctamente de Celsius a Fahrenheit",
+              prueba: () => {
+                if (typeof entorno.celsiusAFahrenheit !== "function")
+                  return false;
+                return (
+                  entorno.celsiusAFahrenheit(0) === 32 &&
+                  entorno.celsiusAFahrenheit(100) === 212 &&
+                  entorno.celsiusAFahrenheit(-40) === -40
+                );
+              },
+            },
+          ];
+
+          // Ejecutar pruebas
+          let todasPasaron = true;
+          pruebas.forEach((prueba) => {
+            let resultado;
+            try {
+              resultado = prueba.prueba();
+            } catch (error) {
+              resultado = false;
+            }
+
+            const elementoPrueba = document.createElement("p");
+            elementoPrueba.className = resultado ? "test-pass" : "test-fail";
+            elementoPrueba.textContent = `${resultado ? "✓" : "✗"} ${
+              prueba.nombre
+            }`;
+            resultadosDiv.appendChild(elementoPrueba);
+
+            if (!resultado) todasPasaron = false;
+          });
+
+          // Mensaje final
+          const mensajeFinal = document.createElement("p");
+          mensajeFinal.style.fontWeight = "bold";
+          mensajeFinal.style.marginTop = "15px";
+          if (todasPasaron) {
+            mensajeFinal.className = "test-pass";
+            mensajeFinal.textContent =
+              "¡Felicidades! Has completado correctamente el ejercicio.";
+
+            // Notificar al índice que este ejercicio se ha completado
+            try {
+              window.parent.postMessage(
+                {
+                  tipo: "ejercicioCompletado",
+                  ejercicioId: "02-operadores/01-operadores-aritmeticos",
+                },
+                "*"
+              );
+              // También guardar en localStorage como respaldo
+              localStorage.setItem(
+                "ejercicio_02-operadores/01-operadores-aritmeticos",
+                "completado"
+              );
+            } catch (e) {
+              console.log("No se pudo notificar al índice", e);
+            }
+          } else {
+            mensajeFinal.className = "test-fail";
+            mensajeFinal.textContent =
+              "Hay errores en tu solución. Revisa las pruebas fallidas e intenta de nuevo.";
+
+            // Añadir botón para mostrar la solución
+            const botonSolucion = document.createElement("button");
+            botonSolucion.textContent = "Ver solución";
+            botonSolucion.style.marginTop = "15px";
+            botonSolucion.style.backgroundColor = "#6c757d";
+            botonSolucion.onclick = mostrarSolucion;
+            resultadosDiv.appendChild(botonSolucion);
+          }
+          resultadosDiv.appendChild(mensajeFinal);
+        } catch (error) {
+          // Mostrar error de sintaxis
+          const errorElement = document.createElement("p");
+          errorElement.className = "test-fail";
+          errorElement.textContent = `Error: ${error.message}`;
+          resultadosDiv.appendChild(errorElement);
+
+          // Añadir botón para mostrar la solución en caso de error
+          const botonSolucion = document.createElement("button");
+          botonSolucion.textContent = "Ver solución";
+          botonSolucion.style.marginTop = "15px";
+          botonSolucion.style.backgroundColor = "#6c757d";
+          botonSolucion.onclick = mostrarSolucion;
+          resultadosDiv.appendChild(botonSolucion);
+        }
+      }
+
+      // Función para mostrar la solución
+      function mostrarSolucion() {
+        const resultadosDiv = document.getElementById("resultados");
+
+        // Crear contenedor para la solución
+        const solucionDiv = document.createElement("div");
+        solucionDiv.style.marginTop = "20px";
+        solucionDiv.style.padding = "15px";
+        solucionDiv.style.backgroundColor = "#f8f9fa";
+        solucionDiv.style.border = "1px solid #e9ecef";
+        solucionDiv.style.borderRadius = "4px";
+
+        // Título de la solución
+        const tituloSolucion = document.createElement("h3");
+        tituloSolucion.textContent = "Solución propuesta";
+        solucionDiv.appendChild(tituloSolucion);
+
+        // Código de la solución
+        const codigoSolucion = document.createElement("pre");
+        codigoSolucion.style.backgroundColor = "#f1f1f1";
+        codigoSolucion.style.padding = "10px";
+        codigoSolucion.style.borderRadius = "4px";
+        codigoSolucion.style.overflow = "auto";
+
+        const codigo = document.createElement("code");
+        codigo.textContent = `// Declaración de variables
+let num1 = 10;
+let num2 = 5;
+
+// Operaciones aritméticas
+let suma = num1 + num2;
+let resta = num1 - num2;
+let multiplicacion = num1 * num2;
+let division = num1 / num2;
+let modulo = num1 % num2;
+let exponente = num1 ** num2;
+
+// Incremento y decremento
+let incremento = num1;
+incremento++;
+let decremento = num2;
+decremento--;`;
+
+        codigoSolucion.appendChild(codigo);
+        solucionDiv.appendChild(codigoSolucion);
+
+        // Explicación de la solución
+        const explicacionTitulo = document.createElement("h3");
+        explicacionTitulo.textContent = "Explicación";
+        solucionDiv.appendChild(explicacionTitulo);
+
+        const explicacion = document.createElement("ul");
+
+        const punto1 = document.createElement("li");
+        punto1.innerHTML =
+          "Declaramos dos variables numéricas <code>num1</code> y <code>num2</code> con valores 10 y 5 respectivamente.";
+        explicacion.appendChild(punto1);
+
+        const punto2 = document.createElement("li");
+        punto2.innerHTML =
+          "Realizamos las operaciones aritméticas básicas: suma (<code>+</code>), resta (<code>-</code>), multiplicación (<code>*</code>), división (<code>/</code>), módulo (<code>%</code>) y exponente (<code>**</code>).";
+        explicacion.appendChild(punto2);
+
+        const punto3 = document.createElement("li");
+        punto3.innerHTML =
+          "Para el incremento, usamos el operador <code>++</code> que aumenta el valor de la variable en 1.";
+        explicacion.appendChild(punto3);
+
+        const punto4 = document.createElement("li");
+        punto4.innerHTML =
+          "Para el decremento, usamos el operador <code>--</code> que disminuye el valor de la variable en 1.";
+        explicacion.appendChild(punto4);
+
+        solucionDiv.appendChild(explicacion);
+
+        // Botón para aplicar la solución
+        const botonAplicar = document.createElement("button");
+        botonAplicar.textContent = "Aplicar esta solución";
+        botonAplicar.style.marginTop = "15px";
+        botonAplicar.onclick = function () {
+          document.getElementById("codigo").value = codigo.textContent;
+          solucionDiv.remove();
+          ejecutarPruebas();
+        };
+        solucionDiv.appendChild(botonAplicar);
+
+        resultadosDiv.appendChild(solucionDiv);
+      }
+    </script>
+  </body>
+</html>
