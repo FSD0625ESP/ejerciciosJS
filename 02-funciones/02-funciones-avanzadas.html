@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ejercicio 1: Funciones Básicas</title>
+    <title>Ejercicio 2: Funciones Avanzadas</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -84,37 +84,25 @@
         <span style="font-size: 14px">&#8592; Volver al índice</span>
       </a>
     </div>
-    <h1>Ejercicio 1: Funciones Básicas</h1>
+    <h1>Ejercicio 2: Funciones Avanzadas</h1>
 
     <h2>Enunciado</h2>
     <p>
-      En este ejercicio, practicarás la creación y uso de funciones en
-      JavaScript, incluyendo diferentes formas de declaración, parámetros y
-      valores de retorno.
+      En este ejercicio, profundizarás en conceptos avanzados de funciones en
+      JavaScript, incluyendo funciones sin parámetros, con valores por defecto y
+      callbacks.
     </p>
 
     <h3>Instrucciones:</h3>
     <ol>
       <li>
-        Crea una función sin parámetros llamada <code>saludar</code> que
-        devuelva el string "Hola, mundo!".
+        Crea una función llamada <code>operarNumeros</code> que reciba dos
+        números y una función como parámetros, y aplique esa función a los
+        números.
       </li>
       <li>
-        Crea una función llamada <code>saludarPersonalizado</code> que reciba un
-        nombre como parámetro y devuelva un saludo personalizado: "Hola,
-        (nombre)!".
-      </li>
-      <li>
-        Crea una función llamada <code>sumar</code> que reciba dos números como
-        parámetros y devuelva su suma.
-      </li>
-      <li>
-        Crea una función flecha llamada <code>multiplicar</code> que reciba dos
-        números y devuelva su multiplicación.
-      </li>
-      <li>
-        Crea una función llamada <code>calcularCuadrado</code> que reciba un
-        número como parámetro y devuelva su cuadrado.
+        Crea una función flecha llamada <code>esPar</code> que reciba un número
+        y devuelva <code>true</code> si es par o <code>false</code> si es impar.
       </li>
     </ol>
 
@@ -168,11 +156,8 @@
                 ${codigoCompleto}
                 
                 // Exportar las funciones al entorno
-                entorno.saludar = typeof saludar === 'function' ? saludar : undefined;
-                entorno.saludarPersonalizado = typeof saludarPersonalizado === 'function' ? saludarPersonalizado : undefined;
-                entorno.sumar = typeof sumar === 'function' ? sumar : undefined;
-                entorno.multiplicar = typeof multiplicar === 'function' ? multiplicar : undefined;
-                entorno.calcularCuadrado = typeof calcularCuadrado === 'function' ? calcularCuadrado : undefined;
+                entorno.operarNumeros = typeof operarNumeros === 'function' ? operarNumeros : undefined;
+                entorno.esPar = typeof esPar === 'function' ? esPar : undefined;
               }
             `
           );
@@ -183,143 +168,107 @@
           // Pruebas
           const pruebas = [
             {
-              nombre: "La función saludar devuelve 'Hola, mundo!'",
+              nombre:
+                "La función operarNumeros aplica correctamente la función recibida a los números",
               prueba: () => {
-                if (typeof entorno.saludar !== "function") return false;
+                if (typeof entorno.operarNumeros !== "function") return false;
 
-                const saludo = entorno.saludar();
-                return saludo === "Hola, mundo!";
+                // Probar con una función de suma
+                const sumar = (a, b) => a + b;
+                const resultadoSuma = entorno.operarNumeros(3, 5, sumar);
+
+                // Probar con una función de multiplicación
+                const multiplicar = (a, b) => a * b;
+                const resultadoMultiplicacion = entorno.operarNumeros(
+                  3,
+                  5,
+                  multiplicar
+                );
+
+                return resultadoSuma === 8 && resultadoMultiplicacion === 15;
               },
             },
             {
               nombre:
-                "La función saludarPersonalizado devuelve un saludo personalizado",
+                "La función esPar determina correctamente si un número es par",
               prueba: () => {
-                if (typeof entorno.saludarPersonalizado !== "function")
-                  return false;
-
-                const saludo = entorno.saludarPersonalizado("Juan");
-                return (
-                  typeof saludo === "string" &&
-                  saludo.includes("Juan") &&
-                  saludo.length > 5
-                );
-              },
-            },
-            {
-              nombre:
-                "La función sumar calcula correctamente la suma de dos números",
-              prueba: () => {
-                if (typeof entorno.sumar !== "function") return false;
+                if (typeof entorno.esPar !== "function") return false;
 
                 return (
-                  entorno.sumar(2, 3) === 5 &&
-                  entorno.sumar(-1, 1) === 0 &&
-                  entorno.sumar(10, 20) === 30
+                  entorno.esPar(2) === true &&
+                  entorno.esPar(7) === false &&
+                  entorno.esPar(0) === true &&
+                  entorno.esPar(-4) === true
                 );
               },
-            },
-            {
-              nombre:
-                "La función multiplicar calcula correctamente el producto de dos números",
-              prueba: () => {
-                if (typeof entorno.multiplicar !== "function") return false;
-
-                return (
-                  entorno.multiplicar(2, 3) === 6 &&
-                  entorno.multiplicar(5, 5) === 25 &&
-                  entorno.multiplicar(-2, 4) === -8
-                );
-              },
-            },
-            {
-              nombre:
-                "La función calcularCuadrado calcula correctamente el cuadrado de un número",
-              prueba: () => {
-                if (typeof entorno.calcularCuadrado !== "function")
-                  return false;
-
-                return (
-                  entorno.calcularCuadrado(2) === 4 &&
-                  entorno.calcularCuadrado(5) === 25 &&
-                  entorno.calcularCuadrado(-3) === 9
-                );
-              },
-            },
+            }
           ];
 
-          // Ejecutar pruebas
-          let todasPasaron = true;
-          pruebas.forEach((prueba) => {
-            let resultado;
-            try {
-              resultado = prueba.prueba();
-            } catch (error) {
-              resultado = false;
-            }
+          // Ejecutar las pruebas
+          let pruebasPasadas = 0;
+          let pruebasTotales = pruebas.length;
 
-            const elementoPrueba = document.createElement("p");
+          for (const { nombre, prueba } of pruebas) {
+            const resultado = prueba();
+            const elementoPrueba = document.createElement("div");
             elementoPrueba.className = resultado ? "test-pass" : "test-fail";
-            elementoPrueba.textContent = `${resultado ? "✓" : "✗"} ${
-              prueba.nombre
-            }`;
+            elementoPrueba.innerHTML = `
+              <strong>${resultado ? "✓" : "✗"} ${nombre}</strong>
+            `;
             resultadosDiv.appendChild(elementoPrueba);
 
-            if (!resultado) todasPasaron = false;
-          });
+            if (resultado) pruebasPasadas++;
+          }
 
-          // Mensaje final
-          const mensajeFinal = document.createElement("p");
-          mensajeFinal.style.fontWeight = "bold";
-          mensajeFinal.style.marginTop = "15px";
-          if (todasPasaron) {
-            mensajeFinal.className = "test-pass";
-            mensajeFinal.textContent =
-              "¡Felicidades! Has completado correctamente el ejercicio.";
+          // Mostrar resumen
+          const resumen = document.createElement("div");
+          resumen.style.marginTop = "20px";
+          resumen.style.fontWeight = "bold";
+          resumen.innerHTML = `${pruebasPasadas} de ${pruebasTotales} pruebas pasadas.`;
+          resultadosDiv.appendChild(resumen);
+
+          // Si todas las pruebas pasan, mostrar mensaje de éxito
+          if (pruebasPasadas === pruebasTotales) {
+            const exito = document.createElement("div");
+            exito.style.marginTop = "10px";
+            exito.style.color = "#28a745";
+            exito.innerHTML = "¡Felicidades! Has completado el ejercicio correctamente.";
+            resultadosDiv.appendChild(exito);
 
             // Notificar al índice que este ejercicio se ha completado
             try {
               window.parent.postMessage(
                 {
                   tipo: "ejercicioCompletado",
-                  ejercicioId: "02-funciones/01-funciones-basicas",
+                  ejercicioId: "02-funciones/02-funciones-avanzadas",
                 },
                 "*"
               );
               // También guardar en localStorage como respaldo
               localStorage.setItem(
-                "ejercicio_02-funciones/01-funciones-basicas",
+                "ejercicio_02-funciones/02-funciones-avanzadas",
                 "completado"
               );
             } catch (e) {
-              console.log("No se pudo notificar al índice", e);
+              console.error("Error al notificar ejercicio completado:", e);
             }
           } else {
-            mensajeFinal.className = "test-fail";
-            mensajeFinal.textContent =
-              "Hay errores en tu solución. Revisa las pruebas fallidas e intenta de nuevo.";
-
-            // Añadir botón para mostrar la solución
+            // Si no todas las pruebas pasan, mostrar botón para ver la solución
             const botonSolucion = document.createElement("button");
             botonSolucion.textContent = "Ver solución";
-            botonSolucion.style.marginTop = "15px";
-            botonSolucion.style.backgroundColor = "#6c757d";
             botonSolucion.onclick = mostrarSolucion;
             resultadosDiv.appendChild(botonSolucion);
           }
-          resultadosDiv.appendChild(mensajeFinal);
         } catch (error) {
-          // Mostrar error de sintaxis
-          const errorElement = document.createElement("p");
-          errorElement.className = "test-fail";
-          errorElement.textContent = `Error: ${error.message}`;
-          resultadosDiv.appendChild(errorElement);
+          // Mostrar error
+          const errorDiv = document.createElement("div");
+          errorDiv.className = "test-fail";
+          errorDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
+          resultadosDiv.appendChild(errorDiv);
 
-          // Añadir botón para mostrar la solución en caso de error
+          // Mostrar botón para ver la solución
           const botonSolucion = document.createElement("button");
           botonSolucion.textContent = "Ver solución";
-          botonSolucion.style.marginTop = "15px";
-          botonSolucion.style.backgroundColor = "#6c757d";
           botonSolucion.onclick = mostrarSolucion;
           resultadosDiv.appendChild(botonSolucion);
         }
@@ -328,9 +277,15 @@
       // Función para mostrar la solución
       function mostrarSolucion() {
         const resultadosDiv = document.getElementById("resultados");
-
+        
+        // Verificar si ya existe una solución visible
+        if (document.getElementById("solucion-container")) {
+          return; // Si ya existe, no hacer nada
+        }
+        
         // Crear contenedor para la solución
         const solucionDiv = document.createElement("div");
+        solucionDiv.id = "solucion-container"; // Añadir ID para poder identificarlo
         solucionDiv.style.marginTop = "20px";
         solucionDiv.style.padding = "15px";
         solucionDiv.style.backgroundColor = "#f8f9fa";
@@ -350,28 +305,13 @@
         codigoSolucion.style.overflow = "auto";
 
         const codigo = document.createElement("code");
-        codigo.textContent = `// Función sin parámetros
-function saludar() {
-  return "Hola, mundo!";
+        codigo.textContent = `// Función como parámetro (callback)
+function operarNumeros(a, b, operacion) {
+  return operacion(a, b);
 }
 
-// Función con parámetros para saludo personalizado
-function saludarPersonalizado(nombre) {
-  return "Hola, " + nombre + "! Bienvenido/a.";
-}
-
-// Función con parámetros para suma
-function sumar(a, b) {
-  return a + b;
-}
-
-// Función flecha para multiplicar
-const multiplicar = (a, b) => a * b;
-
-// Función para calcular el cuadrado
-function calcularCuadrado(numero) {
-  return numero * numero;
-}`;
+// Función flecha para determinar si un número es par
+const esPar = (numero) => numero % 2 === 0;`;
 
         codigoSolucion.appendChild(codigo);
         solucionDiv.appendChild(codigoSolucion);
@@ -385,28 +325,13 @@ function calcularCuadrado(numero) {
 
         const punto1 = document.createElement("li");
         punto1.innerHTML =
-          "La función <code>saludar()</code> no recibe parámetros y devuelve un string fijo 'Hola, mundo!'.";
+          "La función <code>operarNumeros(a, b, operacion)</code> recibe dos números y una función como tercer parámetro, y aplica esa función a los números. Esto demuestra cómo las funciones pueden ser pasadas como argumentos.";
         explicacion.appendChild(punto1);
 
         const punto2 = document.createElement("li");
         punto2.innerHTML =
-          "La función <code>saludarPersonalizado(nombre)</code> recibe un nombre como parámetro y devuelve un saludo personalizado.";
+          "La función <code>esPar(numero)</code> es una función flecha que determina si un número es par. Utiliza el operador módulo (%) para verificar si el resto de la división por 2 es igual a 0.";
         explicacion.appendChild(punto2);
-
-        const punto3 = document.createElement("li");
-        punto3.innerHTML =
-          "La función <code>sumar(a, b)</code> recibe dos parámetros y devuelve su suma.";
-        explicacion.appendChild(punto3);
-
-        const punto4 = document.createElement("li");
-        punto4.innerHTML =
-          "La función <code>multiplicar</code> es una función flecha (arrow function) que multiplica dos números. Es una forma más concisa de escribir funciones.";
-        explicacion.appendChild(punto4);
-
-        const punto5 = document.createElement("li");
-        punto5.innerHTML =
-          "La función <code>calcularCuadrado(numero)</code> recibe un número como parámetro y devuelve su cuadrado.";
-        explicacion.appendChild(punto5);
 
         solucionDiv.appendChild(explicacion);
 

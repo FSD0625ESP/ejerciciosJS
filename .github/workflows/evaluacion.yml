@@ -1,0 +1,51 @@
+name: Evaluación Automática de Ejercicios
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar evaluación
+        run: npm test
+
+      - name: Generar informe de evaluación
+        run: npm run generate-report
+
+      - name: Publicar comentarios con feedback
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const reportPath = './evaluation-report.json';
+
+            if (fs.existsSync(reportPath)) {
+              const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+              const { context } = github;
+              
+              // Si es un PR, comentar en el PR
+              if (context.payload.pull_request) {
+                await github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: `## Resultado de la evaluación\n\n${report.summary}\n\n${report.feedback}`
+                });
+              }
+            }
