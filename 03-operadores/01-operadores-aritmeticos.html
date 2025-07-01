@@ -270,13 +270,13 @@
               window.parent.postMessage(
                 {
                   tipo: "ejercicioCompletado",
-                  ejercicioId: "02-operadores/01-operadores-aritmeticos",
+                  ejercicioId: "03-operadores/01-operadores-aritmeticos",
                 },
                 "*"
               );
               // También guardar en localStorage como respaldo
               localStorage.setItem(
-                "ejercicio_02-operadores/01-operadores-aritmeticos",
+                "ejercicio_03-operadores/01-operadores-aritmeticos",
                 "completado"
               );
             } catch (e) {
@@ -338,23 +338,25 @@
         codigoSolucion.style.overflow = "auto";
 
         const codigo = document.createElement("code");
-        codigo.textContent = `// Declaración de variables
-let num1 = 10;
-let num2 = 5;
+        codigo.textContent = `// Función para calcular el área de un rectángulo
+function calcularArea(largo, ancho) {
+  return largo * ancho;
+}
 
-// Operaciones aritméticas
-let suma = num1 + num2;
-let resta = num1 - num2;
-let multiplicacion = num1 * num2;
-let division = num1 / num2;
-let modulo = num1 % num2;
-let exponente = num1 ** num2;
+// Función para calcular el perímetro de un rectángulo
+function calcularPerimetro(largo, ancho) {
+  return 2 * (largo + ancho);
+}
 
-// Incremento y decremento
-let incremento = num1;
-incremento++;
-let decremento = num2;
-decremento--;`;
+// Función para calcular la circunferencia de un círculo
+function calcularCircunferencia(radio) {
+  return 2 * Math.PI * radio;
+}
+
+// Función para convertir de Celsius a Fahrenheit
+function celsiusAFahrenheit(celsius) {
+  return celsius * 9/5 + 32;
+}`;
 
         codigoSolucion.appendChild(codigo);
         solucionDiv.appendChild(codigoSolucion);
@@ -368,22 +370,22 @@ decremento--;`;
 
         const punto1 = document.createElement("li");
         punto1.innerHTML =
-          "Declaramos dos variables numéricas <code>num1</code> y <code>num2</code> con valores 10 y 5 respectivamente.";
+          "La función <code>calcularArea(largo, ancho)</code> multiplica el largo por el ancho para obtener el área del rectángulo. Utiliza el operador de multiplicación <code>*</code>.";
         explicacion.appendChild(punto1);
 
         const punto2 = document.createElement("li");
         punto2.innerHTML =
-          "Realizamos las operaciones aritméticas básicas: suma (<code>+</code>), resta (<code>-</code>), multiplicación (<code>*</code>), división (<code>/</code>), módulo (<code>%</code>) y exponente (<code>**</code>).";
+          "La función <code>calcularPerimetro(largo, ancho)</code> calcula el perímetro sumando dos veces el largo y el ancho. Utiliza los operadores de multiplicación <code>*</code> y suma <code>+</code>.";
         explicacion.appendChild(punto2);
 
         const punto3 = document.createElement("li");
         punto3.innerHTML =
-          "Para el incremento, usamos el operador <code>++</code> que aumenta el valor de la variable en 1.";
+          "La función <code>calcularCircunferencia(radio)</code> calcula la circunferencia de un círculo usando la fórmula 2 * π * radio. Utiliza <code>Math.PI</code> para obtener el valor de π y el operador de multiplicación <code>*</code>.";
         explicacion.appendChild(punto3);
 
         const punto4 = document.createElement("li");
         punto4.innerHTML =
-          "Para el decremento, usamos el operador <code>--</code> que disminuye el valor de la variable en 1.";
+          "La función <code>celsiusAFahrenheit(celsius)</code> convierte una temperatura en grados Celsius a Fahrenheit usando la fórmula F = C * 9/5 + 32. Utiliza los operadores de multiplicación <code>*</code>, división <code>/</code> y suma <code>+</code>.";
         explicacion.appendChild(punto4);
 
         solucionDiv.appendChild(explicacion);
