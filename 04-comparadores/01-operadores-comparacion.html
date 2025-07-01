@@ -269,13 +269,13 @@
               window.parent.postMessage(
                 {
                   tipo: "ejercicioCompletado",
-                  ejercicioId: "03-comparadores/01-operadores-comparacion",
+                  ejercicioId: "04-comparadores/01-operadores-comparacion",
                 },
                 "*"
               );
               // También guardar en localStorage como respaldo
               localStorage.setItem(
-                "ejercicio_03-comparadores/01-operadores-comparacion",
+                "ejercicio_04-comparadores/01-operadores-comparacion",
                 "completado"
               );
             } catch (e) {
@@ -337,20 +337,25 @@
         codigoSolucion.style.overflow = "auto";
 
         const codigo = document.createElement("code");
-        codigo.textContent = `// Declaración de variables
-let a = 10;
-let b = 5;
-let c = "10";
+        codigo.textContent = `// Función para comprobar si un número es mayor que otro
+function esMayor(num1, num2) {
+  return num1 > num2;
+}
 
-// Operadores de comparación
-let igual = a == c;           // true (compara valor, no tipo)
-let estrictamenteIgual = a === c; // false (compara valor y tipo)
-let diferente = a != b;       // true
-let estrictamenteDiferente = a !== c; // true
-let mayor = a > b;            // true
-let menor = a < b;            // false
-let mayorIgual = a >= b;      // true
-let menorIgual = a <= b;      // false`;
+// Función para comprobar si dos valores son exactamente iguales (valor y tipo)
+function esIgual(valor1, valor2) {
+  return valor1 === valor2;
+}
+
+// Función para comprobar si dos valores tienen el mismo valor (independientemente del tipo)
+function esIgualValor(valor1, valor2) {
+  return valor1 == valor2;
+}
+
+// Función para comprobar si un valor está dentro de un rango (inclusive)
+function estaEnRango(valor, minimo, maximo) {
+  return valor >= minimo && valor <= maximo;
+}`;
 
         codigoSolucion.appendChild(codigo);
         solucionDiv.appendChild(codigoSolucion);
@@ -364,33 +369,23 @@ let menorIgual = a <= b;      // false`;
 
         const punto1 = document.createElement("li");
         punto1.innerHTML =
-          "Declaramos tres variables: <code>a</code> y <code>b</code> con valores numéricos, y <code>c</code> con un valor string que representa un número.";
+          "La función <code>esMayor(num1, num2)</code> utiliza el operador de comparación mayor que (<code>></code>) para determinar si el primer número es mayor que el segundo. Devuelve <code>true</code> o <code>false</code> según el resultado de la comparación.";
         explicacion.appendChild(punto1);
 
         const punto2 = document.createElement("li");
         punto2.innerHTML =
-          "<code>igual</code> (==) compara si los valores son iguales sin importar el tipo, por lo que <code>10 == '10'</code> es <code>true</code>.";
+          "La función <code>esIgual(valor1, valor2)</code> utiliza el operador de igualdad estricta (<code>===</code>) para comparar si dos valores son exactamente iguales, tanto en valor como en tipo. Por ejemplo, <code>5 === 5</code> es <code>true</code>, pero <code>5 === '5'</code> es <code>false</code>.";
         explicacion.appendChild(punto2);
 
         const punto3 = document.createElement("li");
         punto3.innerHTML =
-          "<code>estrictamenteIgual</code> (===) compara tanto el valor como el tipo, por lo que <code>10 === '10'</code> es <code>false</code> porque uno es número y otro string.";
+          "La función <code>esIgualValor(valor1, valor2)</code> utiliza el operador de igualdad no estricta (<code>==</code>) para comparar si dos valores tienen el mismo valor, independientemente de su tipo. Por ejemplo, <code>5 == '5'</code> es <code>true</code> porque JavaScript realiza una conversión de tipos.";
         explicacion.appendChild(punto3);
 
         const punto4 = document.createElement("li");
         punto4.innerHTML =
-          "<code>diferente</code> (!=) compara si los valores son diferentes sin importar el tipo, por lo que <code>10 != 5</code> es <code>true</code>.";
+          "La función <code>estaEnRango(valor, minimo, maximo)</code> utiliza los operadores mayor o igual que (<code>>=</code>) y menor o igual que (<code><=</code>) combinados con el operador lógico AND (<code>&&</code>) para verificar si un valor está dentro de un rango especificado, incluyendo los límites.";
         explicacion.appendChild(punto4);
-
-        const punto5 = document.createElement("li");
-        punto5.innerHTML =
-          "<code>estrictamenteDiferente</code> (!==) compara si los valores o los tipos son diferentes, por lo que <code>10 !== '10'</code> es <code>true</code> porque son de tipos diferentes.";
-        explicacion.appendChild(punto5);
-
-        const punto6 = document.createElement("li");
-        punto6.innerHTML =
-          "Los operadores <code>mayor</code> (>), <code>menor</code> (<), <code>mayorIgual</code> (>=) y <code>menorIgual</code> (<=) comparan los valores numéricos.";
-        explicacion.appendChild(punto6);
 
         solucionDiv.appendChild(explicacion);
 

@@ -283,13 +283,13 @@
               window.parent.postMessage(
                 {
                   tipo: "ejercicioCompletado",
-                  ejercicioId: "04-condicionales/01-if-else",
+                  ejercicioId: "05-condicionales/01-if-else",
                 },
                 "*"
               );
               // También guardar en localStorage como respaldo
               localStorage.setItem(
-                "ejercicio_04-condicionales/01-if-else",
+                "ejercicio_05-condicionales/01-if-else",
                 "completado"
               );
             } catch (e) {
@@ -351,31 +351,55 @@
         codigoSolucion.style.overflow = "auto";
 
         const codigo = document.createElement("code");
-        codigo.textContent = `// Declaración de variables
-let edad = 20;
-let tieneCarnet = true;
-
-// Condicional simple
-let puedeConducir;
-if (edad >= 18 && tieneCarnet) {
-  puedeConducir = true;
-} else {
-  puedeConducir = false;
+        codigo.textContent = `// Función para calificar notas
+function calificarNota(nota) {
+  if (nota < 0 || nota > 100) {
+    return "Nota inválida";
+  } else if (nota >= 90) {
+    return "Sobresaliente";
+  } else if (nota >= 80) {
+    return "Notable";
+  } else if (nota >= 70) {
+    return "Bien";
+  } else if (nota >= 60) {
+    return "Suficiente";
+  } else {
+    return "Insuficiente";
+  }
 }
 
-// Condicional múltiple
-let mensaje;
-if (edad < 18) {
-  mensaje = "Eres menor de edad";
-} else if (edad >= 18 && edad < 65) {
-  mensaje = "Eres adulto";
-} else {
-  mensaje = "Eres jubilado";
+// Función para determinar el día de la semana
+function determinarDiaSemana(numero) {
+  switch (numero) {
+    case 1:
+      return "Lunes";
+    case 2:
+      return "Martes";
+    case 3:
+      return "Miércoles";
+    case 4:
+      return "Jueves";
+    case 5:
+      return "Viernes";
+    case 6:
+      return "Sábado";
+    case 7:
+      return "Domingo";
+    default:
+      return "Número inválido";
+  }
 }
 
-// Condicional ternario
-let estadoCivil = "soltero";
-let tienePareja = estadoCivil === "casado" ? true : false;`;
+// Función para determinar si una persona puede conducir
+function puedeConducir(edad, tieneLicencia) {
+  if (edad < 18) {
+    return "Demasiado joven";
+  } else if (tieneLicencia) {
+    return "Puede conducir";
+  } else {
+    return "Necesita licencia";
+  }
+}`;
 
         codigoSolucion.appendChild(codigo);
         solucionDiv.appendChild(codigoSolucion);
@@ -389,23 +413,18 @@ let tienePareja = estadoCivil === "casado" ? true : false;`;
 
         const punto1 = document.createElement("li");
         punto1.innerHTML =
-          "Declaramos las variables iniciales: <code>edad</code> y <code>tieneCarnet</code>.";
+          "La función <code>calificarNota</code> utiliza una estructura <code>if-else if-else</code> para evaluar en qué rango se encuentra la nota y devolver la calificación correspondiente. Primero verifica si la nota está fuera del rango válido (0-100), y luego comprueba cada rango de calificación en orden descendente.";
         explicacion.appendChild(punto1);
 
         const punto2 = document.createElement("li");
         punto2.innerHTML =
-          "En el primer condicional, usamos <code>if</code> para verificar si la persona puede conducir (ser mayor de edad Y tener carnet). Si se cumple la condición, asignamos <code>true</code> a <code>puedeConducir</code>, de lo contrario, asignamos <code>false</code>.";
+          "La función <code>determinarDiaSemana</code> utiliza una estructura <code>switch</code>, que es otra forma de estructura condicional especialmente útil cuando se compara una variable con múltiples valores posibles. Cada <code>case</code> representa un día de la semana, y el <code>default</code> maneja los valores fuera de rango.";
         explicacion.appendChild(punto2);
 
         const punto3 = document.createElement("li");
         punto3.innerHTML =
-          "En el segundo condicional, usamos <code>if</code>, <code>else if</code> y <code>else</code> para determinar un mensaje según la edad: menor de edad, adulto o jubilado.";
+          "La función <code>puedeConducir</code> utiliza una estructura <code>if-else if-else</code> para determinar si una persona puede conducir. Primero verifica si la persona es menor de edad, luego si tiene licencia, y finalmente maneja el caso en que es mayor de edad pero no tiene licencia.";
         explicacion.appendChild(punto3);
-
-        const punto4 = document.createElement("li");
-        punto4.innerHTML =
-          "En el tercer ejemplo, usamos el operador ternario <code>?:</code> para asignar un valor a <code>tienePareja</code> basado en la condición <code>estadoCivil === 'casado'</code>. Es una forma abreviada de escribir un <code>if-else</code>.";
-        explicacion.appendChild(punto4);
 
         solucionDiv.appendChild(explicacion);
 

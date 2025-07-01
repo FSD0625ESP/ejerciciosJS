@@ -287,13 +287,13 @@
               window.parent.postMessage(
                 {
                   tipo: "ejercicioCompletado",
-                  ejercicioId: "05-bucles/01-bucle-for",
+                  ejercicioId: "06-bucles/01-bucle-for",
                 },
                 "*"
               );
               // También guardar en localStorage como respaldo
               localStorage.setItem(
-                "ejercicio_05-bucles/01-bucle-for",
+                "ejercicio_06-bucles/01-bucle-for",
                 "completado"
               );
             } catch (e) {
@@ -355,25 +355,49 @@
         codigoSolucion.style.overflow = "auto";
 
         const codigo = document.createElement("code");
-        codigo.textContent = `// Bucle for básico
-let suma = 0;
-for (let i = 1; i <= 10; i++) {
-  suma += i;
-}
-
-// Bucle for para recorrer un array
-let numeros = [10, 20, 30, 40, 50];
-let sumaArray = 0;
-for (let i = 0; i < numeros.length; i++) {
-  sumaArray += numeros[i];
-}
-
-// Bucle for para crear un array de números pares
-let numerosPares = [];
-for (let i = 1; i <= 10; i++) {
-  if (i % 2 === 0) {
-    numerosPares.push(i);
+        codigo.textContent = `// Función para sumar números del 1 hasta n
+function sumarNumeros(n) {
+  let suma = 0;
+  for (let i = 1; i <= n; i++) {
+    suma += i;
   }
+  return suma;
+}
+
+// Función para contar números pares en un array
+function contarPares(array) {
+  let contador = 0;
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] % 2 === 0) {
+      contador++;
+    }
+  }
+  return contador;
+}
+
+// Función para multiplicar cada elemento de un array por un valor
+function multiplicarArray(array, multiplicador) {
+  let resultado = [];
+  for (let i = 0; i < array.length; i++) {
+    resultado.push(array[i] * multiplicador);
+  }
+  return resultado;
+}
+
+// Función para crear un patrón de asteriscos
+function crearPatron(n) {
+  let patron = "";
+  for (let i = 1; i <= n; i++) {
+    // Añadir i asteriscos
+    for (let j = 1; j <= i; j++) {
+      patron += "*";
+    }
+    // Añadir salto de línea excepto en la última línea
+    if (i < n) {
+      patron += "\\n";
+    }
+  }
+  return patron;
 }`;
 
         codigoSolucion.appendChild(codigo);
@@ -388,18 +412,23 @@ for (let i = 1; i <= 10; i++) {
 
         const punto1 = document.createElement("li");
         punto1.innerHTML =
-          "En el primer bucle, sumamos todos los números del 1 al 10. Inicializamos <code>i</code> en 1, continuamos mientras <code>i</code> sea menor o igual a 10, e incrementamos <code>i</code> en cada iteración.";
+          "La función <code>sumarNumeros</code> utiliza un bucle <code>for</code> para sumar todos los números desde 1 hasta <code>n</code>. Inicializamos una variable <code>suma</code> en 0, luego iteramos desde <code>i=1</code> hasta <code>i=n</code>, sumando cada valor de <code>i</code> a la variable <code>suma</code>.";
         explicacion.appendChild(punto1);
 
         const punto2 = document.createElement("li");
         punto2.innerHTML =
-          "En el segundo bucle, recorremos un array de números y sumamos todos sus elementos. Inicializamos <code>i</code> en 0 (el primer índice del array), continuamos mientras <code>i</code> sea menor que la longitud del array, e incrementamos <code>i</code> en cada iteración.";
+          "La función <code>contarPares</code> recorre un array y cuenta cuántos elementos son pares. Para cada elemento, comprobamos si es divisible por 2 (usando el operador módulo <code>%</code>) y, si es así, incrementamos el contador.";
         explicacion.appendChild(punto2);
 
         const punto3 = document.createElement("li");
         punto3.innerHTML =
-          "En el tercer bucle, creamos un array con los números pares del 1 al 10. Para cada número, comprobamos si es par usando el operador módulo (<code>%</code>) y, si es así, lo añadimos al array <code>numerosPares</code>.";
+          "La función <code>multiplicarArray</code> crea un nuevo array donde cada elemento es el resultado de multiplicar el elemento original por el multiplicador. Usamos <code>push</code> para añadir cada nuevo valor al array resultado.";
         explicacion.appendChild(punto3);
+
+        const punto4 = document.createElement("li");
+        punto4.innerHTML =
+          "La función <code>crearPatron</code> utiliza bucles <code>for</code> anidados para crear un patrón de asteriscos. El bucle exterior controla el número de líneas, mientras que el bucle interior añade el número correcto de asteriscos para cada línea. Usamos <code>\\n</code> para añadir saltos de línea entre cada fila del patrón.";
+        explicacion.appendChild(punto4);
 
         solucionDiv.appendChild(explicacion);
 

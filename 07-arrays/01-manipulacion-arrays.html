@@ -258,9 +258,12 @@
                   5
                 );
 
+                console.log(resultado1);
+                console.log(resultado2);
+
                 return (
                   Array.isArray(resultado1) &&
-                  resultado1.length === 2 &&
+                  resultado1.length === 3 &&
                   resultado1.includes("hola") &&
                   resultado1.includes("mundo") &&
                   Array.isArray(resultado2) &&
@@ -396,41 +399,36 @@
         codigoSolucion.style.overflow = "auto";
 
         const codigo = document.createElement("code");
-        codigo.textContent = `// Declaración de arrays
-let frutas = ["manzana", "plátano", "naranja", "uva", "pera"];
-let numeros = [10, 20, 30, 40, 50];
+        codigo.textContent = `// Función para obtener el primer y último elemento de un array
+function obtenerPrimeroYUltimo(array) {
+  return [array[0], array[array.length - 1]];
+}
 
-// Acceso a elementos
-let primeraFruta = frutas[0];
-let ultimaFruta = frutas[frutas.length - 1];
+// Función para eliminar elementos duplicados de un array
+function eliminarDuplicados(array) {
+  // Método 1: Usando Set
+  return [...new Set(array)];
+  
+  // Método 2: Usando filter
+  // return array.filter((item, index) => array.indexOf(item) === index);
+}
 
-// Modificación de elementos
-frutas[1] = "kiwi";
+// Función para filtrar strings por longitud
+function filtrarPorLongitud(array, longitud) {
+  return array.filter(str => str.length >= longitud);
+}
 
-// Métodos de arrays
-// Añadir elementos
-frutas.push("mango"); // Añade al final
-frutas.unshift("fresa"); // Añade al principio
-
-// Eliminar elementos
-let ultimoEliminado = frutas.pop(); // Elimina y devuelve el último
-let primeroEliminado = frutas.shift(); // Elimina y devuelve el primero
-
-// Encontrar elementos
-let indiceNaranja = frutas.indexOf("naranja");
-
-// Filtrar elementos
-let numerosPares = numeros.filter(function(numero) {
-  return numero % 2 === 0;
-});
-
-// Transformar elementos
-let numerosDobles = numeros.map(function(numero) {
-  return numero * 2;
-});
-
-// Ordenar elementos
-frutas.sort();`;
+// Función para sumar elementos correspondientes de dos arrays
+function sumarArrays(array1, array2) {
+  let resultado = [];
+  for (let i = 0; i < array1.length; i++) {
+    resultado.push(array1[i] + array2[i]);
+  }
+  return resultado;
+  
+  // Alternativa usando map
+  // return array1.map((valor, indice) => valor + array2[indice]);
+}`;
 
         codigoSolucion.appendChild(codigo);
         solucionDiv.appendChild(codigoSolucion);
@@ -444,48 +442,23 @@ frutas.sort();`;
 
         const punto1 = document.createElement("li");
         punto1.innerHTML =
-          "Declaramos dos arrays: <code>frutas</code> con strings y <code>numeros</code> con valores numéricos.";
+          "La función <code>obtenerPrimeroYUltimo</code> utiliza la notación de corchetes <code>[]</code> para acceder al primer elemento (indice 0) y al último elemento (usando <code>array.length - 1</code>). Luego devuelve un nuevo array con estos dos elementos.";
         explicacion.appendChild(punto1);
 
         const punto2 = document.createElement("li");
         punto2.innerHTML =
-          "Accedemos a elementos específicos usando la notación de corchetes <code>[]</code>. Los índices comienzan en 0.";
+          "La función <code>eliminarDuplicados</code> utiliza el objeto <code>Set</code> de JavaScript, que por definición solo almacena valores únicos. Al convertir el array a un Set y luego de vuelta a un array usando el operador spread (<code>...</code>), eliminamos automáticamente los duplicados. También se muestra una alternativa usando <code>filter</code> y <code>indexOf</code>.";
         explicacion.appendChild(punto2);
 
         const punto3 = document.createElement("li");
         punto3.innerHTML =
-          "Modificamos un elemento asignando un nuevo valor a una posición específica.";
+          "La función <code>filtrarPorLongitud</code> utiliza el método <code>filter</code> para crear un nuevo array que contenga solo los strings cuya longitud (<code>str.length</code>) sea exactamente igual al valor proporcionado.";
         explicacion.appendChild(punto3);
 
         const punto4 = document.createElement("li");
         punto4.innerHTML =
-          "Usamos <code>push</code> y <code>unshift</code> para añadir elementos al final y al principio del array, respectivamente.";
+          "La función <code>sumarArrays</code> recorre los arrays con un bucle <code>for</code> y va sumando los elementos correspondientes (con el mismo índice) de ambos arrays, guardando los resultados en un nuevo array. También se muestra una alternativa más concisa usando el método <code>map</code>.";
         explicacion.appendChild(punto4);
-
-        const punto5 = document.createElement("li");
-        punto5.innerHTML =
-          "Usamos <code>pop</code> y <code>shift</code> para eliminar y obtener elementos del final y del principio del array, respectivamente.";
-        explicacion.appendChild(punto5);
-
-        const punto6 = document.createElement("li");
-        punto6.innerHTML =
-          "Usamos <code>indexOf</code> para encontrar la posición de un elemento en el array.";
-        explicacion.appendChild(punto6);
-
-        const punto7 = document.createElement("li");
-        punto7.innerHTML =
-          "Usamos <code>filter</code> para crear un nuevo array con los elementos que cumplen una condición (en este caso, números pares).";
-        explicacion.appendChild(punto7);
-
-        const punto8 = document.createElement("li");
-        punto8.innerHTML =
-          "Usamos <code>map</code> para crear un nuevo array aplicando una transformación a cada elemento (en este caso, multiplicando por 2).";
-        explicacion.appendChild(punto8);
-
-        const punto9 = document.createElement("li");
-        punto9.innerHTML =
-          "Usamos <code>sort</code> para ordenar los elementos del array (por defecto, en orden alfabético para strings).";
-        explicacion.appendChild(punto9);
 
         solucionDiv.appendChild(explicacion);
 
