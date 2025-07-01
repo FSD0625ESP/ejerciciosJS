@@ -381,43 +381,23 @@ let persona = {
   edad: 30,
   profesion: "Desarrollador",
   hobbies: ["programar", "leer", "viajar"],
-  direccion: {
-    calle: "Calle Principal",
-    numero: 123,
-    ciudad: "Madrid",
-    pais: "España"
-  },
-  esMayorDeEdad: function() {
-    return this.edad >= 18;
-  },
+  
+  // Método presentarse que devuelve una cadena con la información de la persona
   presentarse: function() {
-    return "Hola, me llamo " + this.nombre + " y soy " + this.profesion;
+    return "Hola, me llamo " + this.nombre + ", tengo " + this.edad + " años y soy " + 
+           this.profesion + ". Me gusta " + this.hobbies.join(", ") + "."
   }
 };
 
-// Acceso a propiedades
-let nombrePersona = persona.nombre;
-let ciudadPersona = persona.direccion.ciudad;
+// Función para agregar un nuevo hobby a una persona
+function agregarHobby(persona, hobby) {
+  persona.hobbies.push(hobby);
+  return persona;
+}
 
-// Modificación de propiedades
-persona.edad = 31;
-persona.hobbies.push("cocinar");
-
-// Añadir nuevas propiedades
-persona.email = "juan@ejemplo.com";
-
-// Eliminar propiedades
-delete persona.profesion;
-
-// Comprobar si una propiedad existe
-let tieneEmail = "email" in persona;
-
-// Recorrer propiedades
-let propiedades = [];
-for (let propiedad in persona) {
-  if (typeof persona[propiedad] !== "function") {
-    propiedades.push(propiedad);
-  }
+// Función para comparar la edad de dos personas
+function esMayorQue(persona1, persona2) {
+  return persona1.edad > persona2.edad;
 }`;
 
         codigoSolucion.appendChild(codigo);
@@ -432,43 +412,23 @@ for (let propiedad in persona) {
 
         const punto1 = document.createElement("li");
         punto1.innerHTML =
-          "Definimos un objeto <code>persona</code> con diferentes tipos de propiedades: strings, números, arrays, objetos anidados y métodos (funciones).";
+          "Creamos un objeto <code>persona</code> con las propiedades requeridas: <code>nombre</code>, <code>edad</code>, <code>profesion</code> y <code>hobbies</code> (un array con tres elementos).";
         explicacion.appendChild(punto1);
 
         const punto2 = document.createElement("li");
         punto2.innerHTML =
-          "Accedemos a las propiedades usando la notación de punto (<code>persona.nombre</code>) o para propiedades anidadas (<code>persona.direccion.ciudad</code>).";
+          "Añadimos el método <code>presentarse</code> al objeto <code>persona</code> que devuelve una cadena de texto con el formato solicitado, incluyendo el nombre, edad, profesión y hobbies. Usamos <code>this</code> para acceder a las propiedades del objeto y <code>join()</code> para unir los hobbies con comas.";
         explicacion.appendChild(punto2);
 
         const punto3 = document.createElement("li");
         punto3.innerHTML =
-          "Modificamos propiedades existentes asignando nuevos valores, incluyendo la modificación de un array dentro del objeto usando <code>push</code>.";
+          "Creamos la función <code>agregarHobby</code> que recibe un objeto persona y un nuevo hobby como parámetros. Esta función utiliza el método <code>push</code> para añadir el nuevo hobby al array de hobbies de la persona.";
         explicacion.appendChild(punto3);
 
         const punto4 = document.createElement("li");
         punto4.innerHTML =
-          "Añadimos una nueva propiedad <code>email</code> simplemente asignándole un valor.";
+          "Implementamos la función <code>esMayorQue</code> que compara las edades de dos objetos persona y devuelve <code>true</code> si la primera persona es mayor que la segunda, o <code>false</code> en caso contrario.";
         explicacion.appendChild(punto4);
-
-        const punto5 = document.createElement("li");
-        punto5.innerHTML =
-          "Eliminamos la propiedad <code>profesion</code> usando el operador <code>delete</code>.";
-        explicacion.appendChild(punto5);
-
-        const punto6 = document.createElement("li");
-        punto6.innerHTML =
-          "Verificamos si una propiedad existe en el objeto usando el operador <code>in</code>.";
-        explicacion.appendChild(punto6);
-
-        const punto7 = document.createElement("li");
-        punto7.innerHTML =
-          "Recorremos todas las propiedades del objeto usando un bucle <code>for...in</code> y filtramos para no incluir los métodos.";
-        explicacion.appendChild(punto7);
-
-        const punto8 = document.createElement("li");
-        punto8.innerHTML =
-          "Los métodos <code>esMayorDeEdad</code> y <code>presentarse</code> utilizan <code>this</code> para acceder a las propiedades del objeto desde dentro del método.";
-        explicacion.appendChild(punto8);
 
         solucionDiv.appendChild(explicacion);
 

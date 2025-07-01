@@ -558,123 +558,122 @@
         codigoSolucion.style.overflow = "auto";
 
         const codigo = document.createElement("code");
-        codigo.textContent = `// Definición de la clase Producto
-class Producto {
-  constructor(id, nombre, precio, stock) {
-    this.id = id;
-    this.nombre = nombre;
-    this.precio = precio;
-    this.stock = stock;
+        codigo.textContent = `// 1. Crear el array de inventario con al menos 5 productos
+const inventario = [
+  {
+    id: 1,
+    nombre: "Laptop",
+    precio: 999.99,
+    stock: 10,
+    categoria: "electrónica"
+  },
+  {
+    id: 2,
+    nombre: "Smartphone",
+    precio: 599.99,
+    stock: 15,
+    categoria: "electrónica"
+  },
+  {
+    id: 3,
+    nombre: "Camiseta",
+    precio: 19.99,
+    stock: 50,
+    categoria: "ropa"
+  },
+  {
+    id: 4,
+    nombre: "Zapatillas",
+    precio: 79.99,
+    stock: 20,
+    categoria: "ropa"
+  },
+  {
+    id: 5,
+    nombre: "Libro",
+    precio: 14.99,
+    stock: 30,
+    categoria: "libros"
   }
-  
-  actualizarStock(cantidad) {
-    if (this.stock >= cantidad) {
-      this.stock -= cantidad;
-      return true;
-    }
-    return false;
-  }
-  
-  obtenerInfo() {
-    return \`\${this.nombre} - Precio: \${this.precio}€ - Stock: \${this.stock}\`;
-  }
-}
+];
 
-// Definición de la clase Carrito
-class Carrito {
-  constructor() {
-    this.items = [];
-  }
+// 2. Crear el objeto tienda con las propiedades y métodos requeridos
+const tienda = {
+  nombre: "Mi Tienda Virtual",
+  inventario: inventario,
+  carrito: [],
   
-  agregarProducto(producto, cantidad) {
-    if (producto.stock >= cantidad) {
-      // Comprobar si el producto ya está en el carrito
-      const itemExistente = this.items.find(item => item.producto.id === producto.id);
-      
-      if (itemExistente) {
-        itemExistente.cantidad += cantidad;
-      } else {
-        this.items.push({
-          producto: producto,
-          cantidad: cantidad
-        });
-      }
-      
-      producto.actualizarStock(cantidad);
-      return true;
-    }
-    return false;
-  }
+  // Método para buscar un producto por ID
+  buscarProducto: function(id) {
+    const producto = this.inventario.find(item => item.id === id);
+    return producto || null;
+  },
   
-  eliminarProducto(productoId) {
-    const indice = this.items.findIndex(item => item.producto.id === productoId);
+  // Método para agregar un producto al carrito
+  agregarAlCarrito: function(id, cantidad) {
+    const producto = this.buscarProducto(id);
     
-    if (indice !== -1) {
-      // Devolver el stock
-      const item = this.items[indice];
-      item.producto.stock += item.cantidad;
-      
-      // Eliminar del carrito
-      this.items.splice(indice, 1);
-      return true;
+    if (!producto || producto.stock < cantidad) {
+      return false;
     }
-    return false;
-  }
+    
+    // Verificar si el producto ya está en el carrito
+    const itemExistente = this.carrito.find(item => item.producto.id === id);
+    
+    if (itemExistente) {
+      itemExistente.cantidad += cantidad;
+    } else {
+      this.carrito.push({
+        producto: producto,
+        cantidad: cantidad
+      });
+    }
+    
+    return true;
+  },
   
-  calcularTotal() {
-    return this.items.reduce((total, item) => {
+  // Método para calcular el total del carrito
+  calcularTotal: function() {
+    return this.carrito.reduce((total, item) => {
       return total + (item.producto.precio * item.cantidad);
     }, 0);
-  }
+  },
   
-  vaciar() {
-    // Devolver el stock de todos los productos
-    this.items.forEach(item => {
-      item.producto.stock += item.cantidad;
+  // Método para realizar la compra
+  realizarCompra: function() {
+    // Actualizar el stock de los productos
+    this.carrito.forEach(item => {
+      const producto = this.buscarProducto(item.producto.id);
+      if (producto) {
+        producto.stock -= item.cantidad;
+      }
     });
     
-    this.items = [];
-  }
-  
-  obtenerResumen() {
-    if (this.items.length === 0) {
-      return "El carrito está vacío";
-    }
+    // Vaciar el carrito
+    this.carrito = [];
     
-    let resumen = "Productos en el carrito:\\n";
-    this.items.forEach(item => {
-      resumen += \`- \${item.producto.nombre} x\${item.cantidad}: \${item.producto.precio * item.cantidad}€\\n\`;
-    });
-    
-    resumen += \`\\nTotal: \${this.calcularTotal()}€\`;
-    return resumen;
+    return true;
   }
+};
+
+// 3. Función para filtrar productos por categoría
+function filtrarPorCategoria(inventario, categoria) {
+  return inventario.filter(producto => producto.categoria === categoria);
 }
 
-// Crear productos
-const producto1 = new Producto(1, "Laptop", 999.99, 5);
-const producto2 = new Producto(2, "Smartphone", 599.99, 10);
-const producto3 = new Producto(3, "Auriculares", 89.99, 15);
-
-// Crear carrito
-const carrito = new Carrito();
-
-// Agregar productos al carrito
-carrito.agregarProducto(producto1, 1);
-carrito.agregarProducto(producto2, 2);
-carrito.agregarProducto(producto3, 3);
-
-// Obtener resumen del carrito
-const resumenCarrito = carrito.obtenerResumen();
-
-// Calcular total
-const totalCarrito = carrito.calcularTotal();
-
-// Eliminar un producto
-carrito.eliminarProducto(2);
-
-// Vaciar carrito
-carrito.vaciar();`;
+// 4. Función para ordenar productos por precio
+function ordenarPorPrecio(inventario, ascendente) {
+  // Crear una copia del inventario para no modificar el original
+  const inventarioOrdenado = [...inventario];
+  
+  return inventarioOrdenado.sort((a, b) => {
+    if (ascendente) {
+      return a.precio - b.precio;
+    } else {
+      return b.precio - a.precio;
+    }
+  });
+}`;
 
         codigoSolucion.appendChild(codigo);
         solucionDiv.appendChild(codigoSolucion);
@@ -688,42 +687,42 @@ carrito.vaciar();`;
 
         const punto1 = document.createElement("li");
         punto1.innerHTML =
-          "Creamos una clase <code>Producto</code> con propiedades como id, nombre, precio y stock, y métodos para actualizar el stock y obtener información del producto.";
+          "Creamos un array <code>inventario</code> con 5 productos, cada uno con las propiedades requeridas: <code>id</code>, <code>nombre</code>, <code>precio</code>, <code>stock</code> y <code>categoria</code>.";
         explicacion.appendChild(punto1);
 
         const punto2 = document.createElement("li");
         punto2.innerHTML =
-          "Creamos una clase <code>Carrito</code> que gestiona una colección de productos, con métodos para agregar, eliminar, calcular el total y vaciar el carrito.";
+          "Definimos el objeto <code>tienda</code> con las propiedades <code>nombre</code>, <code>inventario</code> y <code>carrito</code> (inicialmente vacío).";
         explicacion.appendChild(punto2);
 
         const punto3 = document.createElement("li");
         punto3.innerHTML =
-          "El método <code>agregarProducto</code> verifica si hay suficiente stock antes de añadir un producto al carrito. Si el producto ya está en el carrito, aumenta la cantidad en lugar de añadir un nuevo item.";
+          "Implementamos el método <code>buscarProducto</code> que utiliza <code>find</code> para localizar un producto por su ID y devuelve el producto o <code>null</code> si no existe.";
         explicacion.appendChild(punto3);
 
         const punto4 = document.createElement("li");
         punto4.innerHTML =
-          "El método <code>eliminarProducto</code> elimina un producto del carrito y devuelve el stock al producto.";
+          "El método <code>agregarAlCarrito</code> verifica si hay suficiente stock antes de añadir un producto al carrito. Si el producto ya está en el carrito, aumenta la cantidad en lugar de añadir un nuevo item.";
         explicacion.appendChild(punto4);
 
         const punto5 = document.createElement("li");
         punto5.innerHTML =
-          "El método <code>calcularTotal</code> utiliza <code>reduce</code> para sumar el precio total de todos los productos en el carrito.";
+          "El método <code>calcularTotal</code> utiliza <code>reduce</code> para sumar el precio total de todos los productos en el carrito, multiplicando el precio de cada producto por su cantidad.";
         explicacion.appendChild(punto5);
 
         const punto6 = document.createElement("li");
         punto6.innerHTML =
-          "El método <code>vaciar</code> elimina todos los productos del carrito y devuelve el stock a cada producto.";
+          "El método <code>realizarCompra</code> actualiza el stock de los productos comprados y vacía el carrito.";
         explicacion.appendChild(punto6);
 
         const punto7 = document.createElement("li");
         punto7.innerHTML =
-          "El método <code>obtenerResumen</code> genera un resumen formateado de los productos en el carrito y el total.";
+          "La función <code>filtrarPorCategoria</code> utiliza el método <code>filter</code> para devolver un array con los productos que pertenecen a una categoría específica.";
         explicacion.appendChild(punto7);
 
         const punto8 = document.createElement("li");
         punto8.innerHTML =
-          "Finalmente, creamos instancias de productos, un carrito, y demostramos el uso de los métodos para agregar productos, obtener el resumen, calcular el total, eliminar un producto y vaciar el carrito.";
+          "La función <code>ordenarPorPrecio</code> crea una copia del inventario y utiliza el método <code>sort</code> para ordenar los productos por precio, ya sea de forma ascendente o descendente según el parámetro booleano.";
         explicacion.appendChild(punto8);
 
         solucionDiv.appendChild(explicacion);
